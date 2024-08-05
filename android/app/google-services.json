@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "29792714959",
+    "project_id": "gluco-fit-61cdb",
+    "storage_bucket": "gluco-fit-61cdb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:29792714959:android:c9e95b5df1464b3b7ab7ba",
+        "android_client_info": {
+          "package_name": "com.example.gluco_fit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCYX0TBqqUIK1rAk75hHm2FzUbT56AAic"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
