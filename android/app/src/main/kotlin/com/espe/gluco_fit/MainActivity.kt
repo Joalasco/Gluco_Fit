@@ -1,4 +1,4 @@
-package com.example.gluco_fit
+package com.espe.gluco_fit
 
 import io.flutter.embedding.android.FlutterActivity
 
