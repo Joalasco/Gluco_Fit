@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import '../controllers/auth_controller.dart';
 import '../models/user_model.dart';
 import 'register_view.dart';
+import '../views/recipe/recipe_list_view.dart';
 
 class AuthView extends StatefulWidget {
   @override
@@ -26,24 +27,24 @@ class _AuthViewState extends State<AuthView> {
   }
 
   Future<void> _loadCurrentUser() async {
-  print('Iniciando _loadCurrentUser');
-  try {
-    print('Llamando a _authController.getCurrentUser()');
-    final user = await _authController.getCurrentUser();
-    print('Usuario obtenido: ${user?.email}');
-    setState(() {
-      _currentUser = user;
-      _isLoading = false;
-    });
-    print('Estado actualizado, _isLoading: $_isLoading');
-  } catch (e) {
-    print('Error al cargar el usuario: $e');
-    setState(() {
-      _currentUser = null;
-      _isLoading = false;
-    });
+    print('Iniciando _loadCurrentUser');
+    try {
+      print('Llamando a _authController.getCurrentUser()');
+      final user = await _authController.getCurrentUser();
+      print('Usuario obtenido: ${user?.email}');
+      setState(() {
+        _currentUser = user;
+        _isLoading = false;
+      });
+      print('Estado actualizado, _isLoading: $_isLoading');
+    } catch (e) {
+      print('Error al cargar el usuario: $e');
+      setState(() {
+        _currentUser = null;
+        _isLoading = false;
+      });
+    }
   }
-}
 
   Future<void> _checkFirebaseConnection() async {
     try {
@@ -83,12 +84,47 @@ class _AuthViewState extends State<AuthView> {
       appBar: AppBar(
         title: Text('Firebase Auth MVC Demo'),
         actions: [
+          if (_currentUser != null)
+            IconButton(
+              icon: Icon(Icons.restaurant_menu),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => RecipeListView()),
+                );
+              },
+            ),
           Icon(
             _isFirebaseConnected ? Icons.cloud_done : Icons.cloud_off,
             color: _isFirebaseConnected ? Colors.green : Colors.red,
           ),
         ],
       ),
+      drawer: _currentUser != null
+          ? Drawer(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: [
+                  DrawerHeader(
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                    ),
+                    child: Text('Menú'),
+                  ),
+                  ListTile(
+                    title: Text('Recetas'),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => RecipeListView()),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            )
+          : null,
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : Padding(
@@ -141,6 +177,17 @@ class _AuthViewState extends State<AuthView> {
                     Text('Edad: ${_currentUser!.edad}'),
                     Text('Género: ${_currentUser!.genero}'),
                     Text('Creado el: ${_currentUser!.createdAt.toString()}'),
+                    SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => RecipeListView()),
+                        );
+                      },
+                      child: Text('Ver Recetas'),
+                    ),
+                    SizedBox(height: 16),
                     ElevatedButton(
                       onPressed: () async {
                         await _authController.signOut();
