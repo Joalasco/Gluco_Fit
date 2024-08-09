@@ -1,49 +1,28 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/recipe_model.dart';
-import '../services/recipe_service.dart';
 
 class RecipeController {
-  final RecipeService _service = RecipeService();
+  final CollectionReference _recipesCollection = FirebaseFirestore.instance.collection('recipes');
 
   Future<List<Recipe>> getRecipes() async {
-    return await _service.getRecipes();
+    QuerySnapshot snapshot = await _recipesCollection.get();
+    return snapshot.docs.map((doc) => Recipe.fromMap(doc.data() as Map<String, dynamic>)).toList();
   }
 
-  Future<void> createRecipe({
-    required String title,
-    required String description,
-    required List<String> ingredients,
-    required String instructions,
-  }) async {
-    final recipe = Recipe(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
-      title: title,
-      description: description,
-      ingredients: ingredients,
-      instructions: instructions,
-      userId: 'current_user_id', // Replace with actual user ID
-    );
-    await _service.createRecipe(recipe);
+  Future<Recipe> getRecipe(String id) async {
+    DocumentSnapshot doc = await _recipesCollection.doc(id).get();
+    return Recipe.fromMap(doc.data() as Map<String, dynamic>);
   }
 
-  Future<void> updateRecipe({
-    required String id,
-    required String title,
-    required String description,
-    required List<String> ingredients,
-    required String instructions,
-  }) async {
-    final recipe = Recipe(
-      id: id,
-      title: title,
-      description: description,
-      ingredients: ingredients,
-      instructions: instructions,
-      userId: 'current_user_id', // Replace with actual user ID
-    );
-    await _service.updateRecipe(recipe);
+  Future<void> createRecipe(Recipe recipe) async {
+    await _recipesCollection.doc(recipe.recetaID).set(recipe.toMap());
+  }
+
+  Future<void> updateRecipe(Recipe recipe) async {
+    await _recipesCollection.doc(recipe.recetaID).update(recipe.toMap());
   }
 
   Future<void> deleteRecipe(String id) async {
-    await _service.deleteRecipe(id);
+    await _recipesCollection.doc(id).delete();
   }
 }

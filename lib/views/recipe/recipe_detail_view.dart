@@ -14,19 +14,13 @@ class RecipeDetailView extends StatefulWidget {
 
 class _RecipeDetailViewState extends State<RecipeDetailView> {
   final RecipeController controller = RecipeController();
-  late Recipe _recipe;
-
-  @override
-  void initState() {
-    super.initState();
-    _recipe = widget.recipe;
-  }
+  late Recipe _recipe = widget.recipe;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_recipe.title),
+        title: Text(_recipe.nombre),
         actions: [
           IconButton(
             icon: Icon(Icons.edit),
@@ -38,13 +32,9 @@ class _RecipeDetailViewState extends State<RecipeDetailView> {
                 ),
               );
               if (result == true) {
-                // Si se realizaron cambios, vuelve a la lista de recetas
                 Navigator.pop(context, true);
               } else {
-                // Si no se realizaron cambios, actualiza la vista con los datos del widget
-                setState(() {
-                  _recipe = widget.recipe;
-                });
+                setState(() {});
               }
             },
           ),
@@ -65,9 +55,9 @@ class _RecipeDetailViewState extends State<RecipeDetailView> {
                       child: Text('Eliminar'),
                       onPressed: () async {
                         try {
-                          await controller.deleteRecipe(_recipe.id);
-                          Navigator.pop(context); // Cerrar el diálogo
-                          Navigator.pop(context, true); // Volver a la lista de recetas indicando cambios
+                          await controller.deleteRecipe(_recipe.recetaID);
+                          Navigator.pop(context);
+                          Navigator.pop(context, true);
                         } catch (e) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('Error al eliminar la receta: $e')),
@@ -88,16 +78,41 @@ class _RecipeDetailViewState extends State<RecipeDetailView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('Descripción:', style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(_recipe.description),
+            Text(_recipe.descripcion.detalle),
+            Text('Región: ${_recipe.descripcion.region}'),
+            SizedBox(height: 16),
+            Text('Tiempo de Preparación:', style: TextStyle(fontWeight: FontWeight.bold)),
+            Text('${_recipe.tiempoPreparacion} minutos'),
             SizedBox(height: 16),
             Text('Ingredientes:', style: TextStyle(fontWeight: FontWeight.bold)),
-            ..._recipe.ingredients.map((ingredient) => Text('• $ingredient')),
+            _buildIngredientList(_recipe.ingredientes),
             SizedBox(height: 16),
             Text('Instrucciones:', style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(_recipe.instructions),
+            ..._recipe.instrucciones.map((step) => Text('• $step')),
+            SizedBox(height: 16),
+            Image.network(_recipe.imagenURL, height: 200, width: double.infinity, fit: BoxFit.cover),
           ],
         ),
       ),
     );
+  }
+
+  Widget _buildIngredientList(Ingredientes ingredientes) {
+    List<Widget> ingredientWidgets = [];
+    
+    void addIngredients(String category, List<Ingrediente>? ingredients) {
+      if (ingredients != null && ingredients.isNotEmpty) {
+        ingredientWidgets.add(Text(category, style: TextStyle(fontWeight: FontWeight.bold)));
+        ingredientWidgets.addAll(ingredients.map((i) => Text('• ${i.nombre}: ${i.cantidad} ${i.unidad}')));
+      }
+    }
+
+    addIngredients('Frutas', ingredientes.frutas);
+    addIngredients('Lácteos', ingredientes.lacteos);
+    addIngredients('Proteínas', ingredientes.proteinas);
+    addIngredients('Verduras', ingredientes.verduras);
+    addIngredients('Semillas', ingredientes.semillas);
+
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: ingredientWidgets);
   }
 }

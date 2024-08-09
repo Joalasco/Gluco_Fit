@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../controllers/recipe_controller.dart';
 import '../../models/recipe_model.dart';
-import 'recipe_create_view.dart';
 import 'recipe_detail_view.dart';
+import 'recipe_create_view.dart';
 
 class RecipeListView extends StatefulWidget {
   @override
@@ -43,26 +43,24 @@ class _RecipeListViewState extends State<RecipeListView> {
       appBar: AppBar(title: Text('Mis Recetas')),
       body: isLoading
           ? Center(child: CircularProgressIndicator())
-          : recipes.isEmpty
-              ? Center(child: Text('No hay recetas. ¡Agrega una!'))
-              : ListView.builder(
-                  itemCount: recipes.length,
-                  itemBuilder: (context, index) {
-                    final recipe = recipes[index];
-                    return ListTile(
-                      title: Text(recipe.title),
-                      subtitle: Text(recipe.description),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => RecipeDetailView(recipe: recipe),
-                          ),
-                        ).then((_) => _loadRecipes());
-                      },
-                    );
+          : ListView.builder(
+              itemCount: recipes.length,
+              itemBuilder: (context, index) {
+                final recipe = recipes[index];
+                return ListTile(
+                  title: Text(recipe.nombre),
+                  subtitle: Text(recipe.descripcion.detalle),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => RecipeDetailView(recipe: recipe),
+                      ),
+                    ).then((_) => _loadRecipes());
                   },
-                ),
+                );
+              },
+            ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
