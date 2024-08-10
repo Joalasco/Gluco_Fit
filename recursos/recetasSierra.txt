@@ -1,0 +1,1441 @@
+  {
+    "recetaID": "receta_01",
+    "nombre": "Locro de Papas",
+    "descripción": {
+      "detalle": "Sopa espesa de papas con queso, típica de la región andina.",
+      "región": "Sierra"
+    },
+    "tiempoPreparacion": 40,
+    "instrucciones": [
+      "Pelar y cortar las papas en trozos medianos.",
+      "Cocinar las papas con cebolla, ajo y achiote en agua hasta que estén suaves.",
+      "Agregar leche y queso, revolver hasta que el queso se derrita.",
+      "Servir caliente con aguacate en rodajas y cilantro picado."
+    ],
+    "ingredientes": {
+      "frutas": [
+        {
+          "nombre": "Aguacate",
+          "cantidad": 1,
+          "unidad": "pieza",
+          "informacionNutricional": {
+            "calorías": 250,
+            "grasas": 23,
+            "proteínas": 3,
+            "carbohidratos": 12,
+            "glucosa": 0.2
+          }
+        }
+      ],
+      "lacteos": [
+        {
+          "nombre": "Queso Fresco",
+          "cantidad": 150,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 375,
+            "grasas": 30,
+            "proteínas": 22.5,
+            "carbohidratos": 3,
+            "glucosa": 3
+          }
+        },
+        {
+          "nombre": "Leche",
+          "cantidad": 500,
+          "unidad": "mililitros",
+          "informacionNutricional": {
+            "calorías": 200,
+            "grasas": 8,
+            "proteínas": 16,
+            "carbohidratos": 24,
+            "glucosa": 12
+          }
+        }
+      ],
+      "proteinas": null,
+      "verduras": [
+        {
+          "nombre": "Papa",
+          "cantidad": 4,
+          "unidad": "pieza",
+          "informacionNutricional": {
+            "calorías": 400,
+            "grasas": 0.4,
+            "proteínas": 8,
+            "carbohidratos": 92,
+            "glucosa": 2
+          }
+        }
+      ],
+      "semillas": null
+    },
+    "imagenURL": "https://example.com/locro_de_papas.jpg"
+  },
+  {
+    "recetaID": "receta_02",
+    "nombre": "Cuy Asado",
+    "descripción": {
+      "detalle": "Cuy asado al estilo tradicional andino, servido con papas y salsa de maní.",
+      "región": "Sierra"
+    },
+    "tiempoPreparacion": 120,
+    "instrucciones": [
+      "Lavar y sazonar el cuy con ajo, sal, y achiote.",
+      "Asar el cuy sobre brasas hasta que esté dorado y crujiente.",
+      "Servir con papas cocidas y salsa de maní."
+    ],
+    "ingredientes": {
+      "frutas": null,
+      "lacteos": null,
+      "proteinas": [
+        {
+          "nombre": "Cuy",
+          "cantidad": 1,
+          "unidad": "pieza",
+          "informacionNutricional": {
+            "calorías": 600,
+            "grasas": 45,
+            "proteínas": 55,
+            "carbohidratos": 0,
+            "glucosa": 0
+          }
+        }
+      ],
+      "verduras": [
+        {
+          "nombre": "Papa",
+          "cantidad": 4,
+          "unidad": "pieza",
+          "informacionNutricional": {
+            "calorías": 400,
+            "grasas": 0.4,
+            "proteínas": 8,
+            "carbohidratos": 92,
+            "glucosa": 2
+          }
+        }
+      ],
+      "semillas": [
+        {
+          "nombre": "Maní",
+          "cantidad": 100,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 567,
+            "grasas": 49,
+            "proteínas": 25,
+            "carbohidratos": 16,
+            "glucosa": 4
+          }
+        }
+      ]
+    },
+    "imagenURL": "https://example.com/cuy_asado.jpg"
+  },
+  {
+    "recetaID": "receta_03",
+    "nombre": "Llapingachos",
+    "descripción": {
+      "detalle": "Tortillas de papa rellenas de queso, servidas con chorizo y huevo frito.",
+      "región": "Sierra"
+    },
+    "tiempoPreparacion": 60,
+    "instrucciones": [
+      "Pelar y cocinar las papas hasta que estén suaves.",
+      "Hacer un puré con las papas y formar pequeñas tortillas.",
+      "Rellenar las tortillas con queso y freírlas hasta que estén doradas.",
+      "Servir con chorizo, huevo frito y ensalada."
+    ],
+    "ingredientes": {
+      "frutas": null,
+      "lacteos": [
+        {
+          "nombre": "Queso Fresco",
+          "cantidad": 200,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 500,
+            "grasas": 40,
+            "proteínas": 30,
+            "carbohidratos": 4,
+            "glucosa": 4
+          }
+        }
+      ],
+      "proteinas": [
+        {
+          "nombre": "Chorizo",
+          "cantidad": 2,
+          "unidad": "pieza",
+          "informacionNutricional": {
+            "calorías": 300,
+            "grasas": 25,
+            "proteínas": 15,
+            "carbohidratos": 5,
+            "glucosa": 2
+          }
+        },
+        {
+          "nombre": "Huevo",
+          "cantidad": 2,
+          "unidad": "pieza",
+          "informacionNutricional": {
+            "calorías": 140,
+            "grasas": 10,
+            "proteínas": 12,
+            "carbohidratos": 1,
+            "glucosa": 1
+          }
+        }
+      ],
+      "verduras": [
+        {
+          "nombre": "Papa",
+          "cantidad": 6,
+          "unidad": "pieza",
+          "informacionNutricional": {
+            "calorías": 600,
+            "grasas": 0.6,
+            "proteínas": 12,
+            "carbohidratos": 138,
+            "glucosa": 3
+          }
+        }
+      ],
+      "semillas": null
+    },
+    "imagenURL": "https://example.com/llapingachos.jpg"
+  },
+  {
+    "recetaID": "receta_04",
+    "nombre": "Fritada",
+    "descripción": {
+      "detalle": "Carne de cerdo frita servida con mote, papas y ensalada.",
+      "región": "Sierra"
+    },
+    "tiempoPreparacion": 90,
+    "instrucciones": [
+      "Cortar la carne de cerdo en trozos y sazonarla con ajo, comino, y sal.",
+      "Cocinar la carne en agua hasta que se evapore y luego freír hasta que esté dorada.",
+      "Servir la fritada con mote, papas y ensalada."
+    ],
+    "ingredientes": {
+      "frutas": null,
+      "lacteos": null,
+      "proteinas": [
+        {
+          "nombre": "Carne de Cerdo",
+          "cantidad": 500,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 1450,
+            "grasas": 120,
+            "proteínas": 105,
+            "carbohidratos": 0,
+            "glucosa": 0
+          }
+        }
+      ],
+      "verduras": [
+        {
+          "nombre": "Papa",
+          "cantidad": 4,
+          "unidad": "pieza",
+          "informacionNutricional": {
+            "calorías": 400,
+            "grasas": 0.4,
+            "proteínas": 8,
+            "carbohidratos": 92,
+            "glucosa": 2
+          }
+        }
+      ],
+      "semillas": [
+        {
+          "nombre": "Mote",
+          "cantidad": 200,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 240,
+            "grasas": 2,
+            "proteínas": 8,
+            "carbohidratos": 48,
+            "glucosa": 1
+          }
+        }
+      ]
+    },
+    "imagenURL": "https://example.com/fritada.jpg"
+  },
+  {
+    "recetaID": "receta_05",
+    "nombre": "Hornado",
+    "descripción": {
+      "detalle": "Carne de cerdo asada al horno, servida con mote, papas y ensalada.",
+      "región": "Sierra"
+    },
+    "tiempoPreparacion": 180,
+    "instrucciones": [
+      "Sazonar la carne de cerdo con ajo, comino, achiote, y sal.",
+      "Asar la carne en el horno a fuego lento hasta que esté dorada y jugosa.",
+      "Servir con mote, papas y ensalada."
+    ],
+    "ingredientes": {
+      "frutas": null,
+      "lacteos": null,
+      "proteinas": [
+        {
+          "nombre": "Carne de Cerdo",
+          "cantidad": 1000,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 2900,
+            "grasas": 240,
+            "proteínas": 210,
+            "carbohidratos": 0,
+            "glucosa": 0
+          }
+        }
+      ],
+      "verduras": [
+        {
+          "nombre": "Papa",
+          "cantidad": 6,
+          "unidad": "pieza",
+          "informacionNutricional": {
+            "calorías": 600,
+            "grasas": 0.6,
+            "proteínas": 12,
+            "carbohidratos": 138,
+            "glucosa": 3
+          }
+        }
+      ],
+      "semillas": [
+        {
+          "nombre": "Mote",
+          "cantidad": 300,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 360,
+            "grasas": 3,
+            "proteínas": 12,
+            "carbohidratos": 72,
+            "glucosa": 2
+          }
+        }
+      ]
+    },
+    "imagenURL": "https://example.com/hornado.jpg"
+  },
+  {
+    "recetaID": "receta_06",
+    "nombre": "Yahuarlocro",
+    "descripción": {
+      "detalle": "Sopa espesa de papa con vísceras de cordero, sangre cocida y aguacate.",
+      "región": "Sierra"
+    },
+    "tiempoPreparacion": 90,
+    "instrucciones": [
+      "Cocinar las vísceras de cordero en agua con sal y hierbas aromáticas.",
+      "Cocinar las papas en el caldo de las vísceras hasta que estén suaves.",
+      "Agregar la sangre cocida desmenuzada y mezclar.",
+      "Servir caliente con aguacate en rodajas y ají."
+    ],
+    "ingredientes": {
+      "frutas": [
+        {
+          "nombre": "Aguacate",
+          "cantidad": 1,
+          "unidad": "pieza",
+          "informacionNutricional": {
+            "calorías": 250,
+            "grasas": 23,
+            "proteínas": 3,
+            "carbohidratos": 12,
+            "glucosa": 0.2
+          }
+        }
+      ],
+      "lacteos": null,
+      "proteinas": [
+        {
+          "nombre": "Vísceras de Cordero",
+          "cantidad": 300,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 900,
+            "grasas": 50,
+            "proteínas": 60,
+            "carbohidratos": 0,
+            "glucosa": 0
+          }
+        },
+        {
+          "nombre": "Sangre Cocida",
+          "cantidad": 200,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 400,
+            "grasas": 20,
+            "proteínas": 30,
+            "carbohidratos": 0,
+            "glucosa": 0
+          }
+        }
+      ],
+      "verduras": [
+        {
+          "nombre": "Papa",
+          "cantidad": 5,
+          "unidad": "pieza",
+          "informacionNutricional": {
+            "calorías": 500,
+            "grasas": 0.5,
+            "proteínas": 10,
+            "carbohidratos": 115,
+            "glucosa": 2.5
+          }
+        }
+      ],
+      "semillas": null
+    },
+    "imagenURL": "https://example.com/yahuarlocro.jpg"
+  },
+  {
+    "recetaID": "receta_07",
+    "nombre": "Chugchucaras",
+    "descripción": {
+      "detalle": "Plato tradicional de Latacunga compuesto de fritada, mote, papas, empanadas y chicharrón.",
+      "región": "Sierra"
+    },
+    "tiempoPreparacion": 120,
+    "instrucciones": [
+      "Cocinar la carne de cerdo en agua con sal, ajo y comino hasta que esté tierna.",
+      "Freír la carne de cerdo en su propia grasa hasta que esté dorada.",
+      "Freír los chicharrones hasta que estén crujientes.",
+      "Servir la fritada con mote, papas, empanadas y chicharrones."
+    ],
+    "ingredientes": {
+      "frutas": null,
+      "lacteos": null,
+      "proteinas": [
+        {
+          "nombre": "Carne de Cerdo",
+          "cantidad": 500,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 1450,
+            "grasas": 120,
+            "proteínas": 105,
+            "carbohidratos": 0,
+            "glucosa": 0
+          }
+        },
+        {
+          "nombre": "Chicharrón",
+          "cantidad": 200,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 900,
+            "grasas": 80,
+            "proteínas": 40,
+            "carbohidratos": 0,
+            "glucosa": 0
+          }
+        }
+      ],
+      "verduras": [
+        {
+          "nombre": "Papa",
+          "cantidad": 4,
+          "unidad": "pieza",
+          "informacionNutricional": {
+            "calorías": 400,
+            "grasas": 0.4,
+            "proteínas": 8,
+            "carbohidratos": 92,
+            "glucosa": 2
+          }
+        }
+      ],
+      "semillas": [
+        {
+          "nombre": "Mote",
+          "cantidad": 200,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 240,
+            "grasas": 2,
+            "proteínas": 8,
+            "carbohidratos": 48,
+            "glucosa": 1
+          }
+        }
+      ]
+    },
+    "imagenURL": "https://example.com/chugchucaras.jpg"
+  },
+  {
+    "recetaID": "receta_08",
+    "nombre": "Colada Morada",
+    "descripción": {
+      "detalle": "Bebida tradicional hecha con frutas, especias y maíz morado, servida durante el Día de los Difuntos.",
+      "región": "Sierra"
+    },
+    "tiempoPreparacion": 90,
+    "instrucciones": [
+      "Hervir el maíz morado en agua hasta obtener un líquido espeso.",
+      "Agregar las frutas cortadas en trozos y las especias.",
+      "Cocinar a fuego lento hasta que las frutas estén suaves.",
+      "Servir caliente o frío, acompañado de guaguas de pan."
+    ],
+    "ingredientes": {
+      "frutas": [
+        {
+          "nombre": "Mora",
+          "cantidad": 200,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 100,
+            "grasas": 0.5,
+            "proteínas": 2,
+            "carbohidratos": 24,
+            "glucosa": 5
+          }
+        },
+        {
+          "nombre": "Piña",
+          "cantidad": 300,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 150,
+            "grasas": 0.3,
+            "proteínas": 2,
+            "carbohidratos": 40,
+            "glucosa": 20
+          }
+        },
+        {
+          "nombre": "Babaco",
+          "cantidad": 200,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 80,
+            "grasas": 0.2,
+            "proteínas": 1,
+            "carbohidratos": 20,
+            "glucosa": 12
+          }
+        }
+      ],
+      "lacteos": null,
+      "proteinas": null,
+      "verduras": null,
+      "semillas": [
+        {
+          "nombre": "Maíz Morado",
+          "cantidad": 150,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 200,
+            "grasas": 4,
+            "proteínas": 6,
+            "carbohidratos": 38,
+            "glucosa": 5
+          }
+        }
+      ]
+    },
+    "imagenURL": "https://example.com/colada_morada.jpg"
+  },
+  {
+    "recetaID": "receta_09",
+    "nombre": "Empanadas de Viento",
+    "descripción": {
+      "detalle": "Empanadas fritas rellenas de queso, espolvoreadas con azúcar.",
+      "región": "Sierra"
+    },
+    "tiempoPreparacion": 60,
+    "instrucciones": [
+      "Mezclar harina, agua, sal y manteca para formar una masa.",
+      "Extender la masa y cortar círculos pequeños.",
+      "Rellenar los círculos de masa con queso desmenuzado.",
+      "Cerrar las empanadas, sellarlas y freírlas en aceite caliente.",
+      "Espolvorear con azúcar antes de servir."
+    ],
+    "ingredientes": {
+      "frutas": null,
+      "lacteos": [
+        {
+          "nombre": "Queso Fresco",
+          "cantidad": 200,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 500,
+            "grasas": 40,
+            "proteínas": 30,
+            "carbohidratos": 4,
+            "glucosa": 4
+          }
+        }
+      ],
+      "proteinas": null,
+      "verduras": null,
+      "semillas": null
+    },
+    "imagenURL": "https://example.com/empanadas_de_viento.jpg"
+  },
+  {
+    "recetaID": "receta_10",
+    "nombre": "Aguado de Gallina",
+    "descripción": {
+      "detalle": "Sopa espesa de gallina con arroz, papas y zanahoria.",
+      "región": "Sierra"
+    },
+    "tiempoPreparacion": 120,
+    "instrucciones": [
+      "Cocinar la gallina en agua con cebolla, ajo y sal hasta que esté suave.",
+      "Agregar el arroz, las papas y la zanahoria y cocinar hasta que estén suaves.",
+      "Servir caliente con cilantro picado."
+    ],
+    "ingredientes": {
+      "frutas": null,
+      "lacteos": null,
+      "proteinas": [
+        {
+          "nombre": "Gallina",
+          "cantidad": 1,
+          "unidad": "pieza",
+          "informacionNutricional": {
+            "calorías": 1200,
+            "grasas": 80,
+            "proteínas": 100,
+            "carbohidratos": 0,
+            "glucosa": 0
+          }
+        }
+      ],
+      "verduras": [
+        {
+          "nombre": "Papa",
+          "cantidad": 3,
+          "unidad": "pieza",
+          "informacionNutricional": {
+            "calorías": 300,
+            "grasas": 0.3,
+            "proteínas": 6,
+            "carbohidratos": 69,
+            "glucosa": 1.5
+          }
+        },
+        {
+          "nombre": "Zanahoria",
+          "cantidad": 2,
+          "unidad": "pieza",
+          "informacionNutricional": {
+            "calorías": 50,
+            "grasas": 0.1,
+            "proteínas": 1,
+            "carbohidratos": 12,
+            "glucosa": 6
+          }
+        }
+      ],
+      "semillas": [
+        {
+          "nombre": "Arroz",
+          "cantidad": 100,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 130,
+            "grasas": 0.2,
+            "proteínas": 2.7,
+            "carbohidratos": 28,
+            "glucosa": 0.1
+          }
+        }
+      ]
+    },
+    "imagenURL": "https://example.com/aguado_de_gallina.jpg"
+  },
+  {
+    "recetaID": "receta_11",
+    "nombre": "Mote Pillo",
+    "descripción": {
+      "detalle": "Plato tradicional de mote cocido con huevo y cebolla, típico de la sierra ecuatoriana.",
+      "región": "Sierra"
+    },
+    "tiempoPreparacion": 30,
+    "instrucciones": [
+      "Cocinar el mote en agua con sal hasta que esté suave.",
+      "En una sartén, sofreír cebolla con ajo y achiote.",
+      "Añadir el mote cocido y mezclar bien.",
+      "Agregar los huevos batidos y cocinar hasta que estén firmes.",
+      "Servir caliente, decorado con cilantro picado."
+    ],
+    "ingredientes": {
+      "frutas": null,
+      "lacteos": null,
+      "proteinas": [
+        {
+          "nombre": "Huevo",
+          "cantidad": 4,
+          "unidad": "pieza",
+          "informacionNutricional": {
+            "calorías": 280,
+            "grasas": 20,
+            "proteínas": 24,
+            "carbohidratos": 2,
+            "glucosa": 2
+          }
+        }
+      ],
+      "verduras": [
+        {
+          "nombre": "Cebolla",
+          "cantidad": 1,
+          "unidad": "pieza",
+          "informacionNutricional": {
+            "calorías": 40,
+            "grasas": 0.1,
+            "proteínas": 1,
+            "carbohidratos": 9,
+            "glucosa": 4
+          }
+        }
+      ],
+      "semillas": [
+        {
+          "nombre": "Mote",
+          "cantidad": 300,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 360,
+            "grasas": 3,
+            "proteínas": 12,
+            "carbohidratos": 72,
+            "glucosa": 2
+          }
+        }
+      ]
+    },
+    "imagenURL": "https://example.com/mote_pillo.jpg"
+  },
+  {
+    "recetaID": "receta_12",
+    "nombre": "Fanesca",
+    "descripción": {
+      "detalle": "Sopa espesa de pescado y granos, típica de la Semana Santa en Ecuador.",
+      "región": "Sierra"
+    },
+    "tiempoPreparacion": 180,
+    "instrucciones": [
+      "Cocinar los granos (chochos, habas, arvejas, fréjol) por separado hasta que estén suaves.",
+      "En una olla grande, cocinar el pescado en leche con cebolla, ajo y achiote.",
+      "Agregar los granos cocidos, zapallo y sambo, y cocinar a fuego lento.",
+      "Servir con huevo duro, plátano maduro frito, y queso fresco."
+    ],
+    "ingredientes": {
+      "frutas": [
+        {
+          "nombre": "Plátano Maduro",
+          "cantidad": 2,
+          "unidad": "pieza",
+          "informacionNutricional": {
+            "calorías": 300,
+            "grasas": 0.4,
+            "proteínas": 2,
+            "carbohidratos": 78,
+            "glucosa": 38
+          }
+        }
+      ],
+      "lacteos": [
+        {
+          "nombre": "Leche",
+          "cantidad": 1000,
+          "unidad": "mililitros",
+          "informacionNutricional": {
+            "calorías": 400,
+            "grasas": 16,
+            "proteínas": 32,
+            "carbohidratos": 48,
+            "glucosa": 24
+          }
+        },
+        {
+          "nombre": "Queso Fresco",
+          "cantidad": 200,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 500,
+            "grasas": 40,
+            "proteínas": 30,
+            "carbohidratos": 4,
+            "glucosa": 4
+          }
+        }
+      ],
+      "proteinas": [
+        {
+          "nombre": "Pescado Salado",
+          "cantidad": 500,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 1200,
+            "grasas": 20,
+            "proteínas": 200,
+            "carbohidratos": 0,
+            "glucosa": 0
+          }
+        },
+        {
+          "nombre": "Huevo",
+          "cantidad": 4,
+          "unidad": "pieza",
+          "informacionNutricional": {
+            "calorías": 280,
+            "grasas": 20,
+            "proteínas": 24,
+            "carbohidratos": 2,
+            "glucosa": 2
+          }
+        }
+      ],
+      "verduras": [
+        {
+          "nombre": "Zapallo",
+          "cantidad": 300,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 90,
+            "grasas": 0.3,
+            "proteínas": 2.4,
+            "carbohidratos": 20,
+            "glucosa": 8
+          }
+        },
+        {
+          "nombre": "Sambo",
+          "cantidad": 200,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 60,
+            "grasas": 0.2,
+            "proteínas": 1.6,
+            "carbohidratos": 14,
+            "glucosa": 6
+          }
+        }
+      ],
+      "semillas": [
+        {
+          "nombre": "Chochos",
+          "cantidad": 200,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 360,
+            "grasas": 9,
+            "proteínas": 32,
+            "carbohidratos": 40,
+            "glucosa": 1
+          }
+        },
+        {
+          "nombre": "Habas",
+          "cantidad": 200,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 220,
+            "grasas": 1.5,
+            "proteínas": 16,
+            "carbohidratos": 40,
+            "glucosa": 1.5
+          }
+        },
+        {
+          "nombre": "Arvejas",
+          "cantidad": 200,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 160,
+            "grasas": 1,
+            "proteínas": 12,
+            "carbohidratos": 28,
+            "glucosa": 2
+          }
+        },
+        {
+          "nombre": "Fréjol",
+          "cantidad": 200,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 220,
+            "grasas": 1,
+            "proteínas": 14,
+            "carbohidratos": 40,
+            "glucosa": 2
+          }
+        }
+      ]
+    },
+    "imagenURL": "https://example.com/fanesca.jpg"
+  },
+  {
+    "recetaID": "receta_13",
+    "nombre": "Quimbolitos",
+    "descripción": {
+      "detalle": "Dulce tradicional ecuatoriano hecho de harina de maíz y queso, envuelto en hojas de achira y cocido al vapor.",
+      "región": "Sierra"
+    },
+    "tiempoPreparacion": 90,
+    "instrucciones": [
+      "Mezclar harina de maíz, queso, mantequilla, huevos, y azúcar hasta formar una masa suave.",
+      "Colocar la masa en hojas de achira y envolverlas.",
+      "Cocinar al vapor durante 40 minutos.",
+      "Servir caliente o frío."
+    ],
+    "ingredientes": {
+      "frutas": null,
+      "lacteos": [
+        {
+          "nombre": "Queso Fresco",
+          "cantidad": 200,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 500,
+            "grasas": 40,
+            "proteínas": 30,
+            "carbohidratos": 4,
+            "glucosa": 4
+          }
+        },
+        {
+          "nombre": "Mantequilla",
+          "cantidad": 100,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 720,
+            "grasas": 80,
+            "proteínas": 1,
+            "carbohidratos": 0,
+            "glucosa": 0
+          }
+        }
+      ],
+      "proteinas": [
+        {
+          "nombre": "Huevo",
+          "cantidad": 4,
+          "unidad": "pieza",
+          "informacionNutricional": {
+            "calorías": 280,
+            "grasas": 20,
+            "proteínas": 24,
+            "carbohidratos": 2,
+            "glucosa": 2
+          }
+        }
+      ],
+      "verduras": null,
+      "semillas": [
+        {
+          "nombre": "Harina de Maíz",
+          "cantidad": 300,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 1080,
+            "grasas": 9,
+            "proteínas": 21,
+            "carbohidratos": 225,
+            "glucosa": 3
+          }
+        }
+      ]
+    },
+    "imagenURL": "https://example.com/quimbolitos.jpg"
+  },
+  {
+    "recetaID": "receta_14",
+    "nombre": "Ceviche de Chocho",
+    "descripción": {
+      "detalle": "Ceviche de chochos con tomate, cebolla, limón y cilantro.",
+      "región": "Sierra"
+    },
+    "tiempoPreparacion": 30,
+    "instrucciones": [
+      "Mezclar los chochos con cebolla, tomate, cilantro, y jugo de limón.",
+      "Sazonar con sal y ají al gusto.",
+      "Dejar reposar por 15 minutos para que se mezclen los sabores.",
+      "Servir frío, acompañado de maíz tostado."
+    ],
+    "ingredientes": {
+      "frutas": [
+        {
+          "nombre": "Tomate",
+          "cantidad": 2,
+          "unidad": "pieza",
+          "informacionNutricional": {
+            "calorías": 40,
+            "grasas": 0.5,
+            "proteínas": 2,
+            "carbohidratos": 9,
+            "glucosa": 4
+          }
+        },
+        {
+          "nombre": "Limón",
+          "cantidad": 2,
+          "unidad": "pieza",
+          "informacionNutricional": {
+            "calorías": 20,
+            "grasas": 0.1,
+            "proteínas": 0.5,
+            "carbohidratos": 7,
+            "glucosa": 2
+          }
+        }
+      ],
+      "lacteos": null,
+      "proteinas": null,
+      "verduras": [
+        {
+          "nombre": "Cebolla",
+          "cantidad": 1,
+          "unidad": "pieza",
+          "informacionNutricional": {
+            "calorías": 40,
+            "grasas": 0.1,
+            "proteínas": 1,
+            "carbohidratos": 9,
+            "glucosa": 4
+          }
+        },
+        {
+          "nombre": "Cilantro",
+          "cantidad": 30,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 6,
+            "grasas": 0.1,
+            "proteínas": 0.6,
+            "carbohidratos": 1,
+            "glucosa": 0.1
+          }
+        }
+      ],
+      "semillas": [
+        {
+          "nombre": "Chochos",
+          "cantidad": 200,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 360,
+            "grasas": 9,
+            "proteínas": 32,
+            "carbohidratos": 40,
+            "glucosa": 1
+          }
+        }
+      ]
+    },
+    "imagenURL": "https://example.com/ceviche_de_chocho.jpg"
+  },
+  {
+    "recetaID": "receta_15",
+    "nombre": "Carne Colorada",
+    "descripción": {
+      "detalle": "Carne de res marinada en achiote y especias, servida con papas y mote.",
+      "región": "Sierra"
+    },
+    "tiempoPreparacion": 120,
+    "instrucciones": [
+      "Marinar la carne de res en una mezcla de achiote, ajo, comino, y sal durante al menos 1 hora.",
+      "Freír la carne en una sartén hasta que esté bien dorada.",
+      "Cocinar las papas y el mote hasta que estén suaves.",
+      "Servir la carne colorada con las papas y mote, decorado con cilantro."
+    ],
+    "ingredientes": {
+      "frutas": null,
+      "lacteos": null,
+      "proteinas": [
+        {
+          "nombre": "Carne de Res",
+          "cantidad": 500,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 1200,
+            "grasas": 100,
+            "proteínas": 90,
+            "carbohidratos": 0,
+            "glucosa": 0
+          }
+        }
+      ],
+      "verduras": [
+        {
+          "nombre": "Papa",
+          "cantidad": 4,
+          "unidad": "pieza",
+          "informacionNutricional": {
+            "calorías": 400,
+            "grasas": 0.4,
+            "proteínas": 8,
+            "carbohidratos": 92,
+            "glucosa": 2
+          }
+        }
+      ],
+      "semillas": [
+        {
+          "nombre": "Mote",
+          "cantidad": 200,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 240,
+            "grasas": 2,
+            "proteínas": 8,
+            "carbohidratos": 48,
+            "glucosa": 1
+          }
+        },
+        {
+          "nombre": "Achiote",
+          "cantidad": 10,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 20,
+            "grasas": 1,
+            "proteínas": 1,
+            "carbohidratos": 4,
+            "glucosa": 0.5
+          }
+        }
+      ]
+    },
+    "imagenURL": "https://example.com/carne_colorada.jpg"
+  },
+  {
+    "recetaID": "receta_16",
+    "nombre": "Seco de Chivo",
+    "descripción": {
+      "detalle": "Plato tradicional de carne de chivo cocinada en una salsa de cerveza, naranjilla y especias.",
+      "región": "Sierra"
+    },
+    "tiempoPreparacion": 120,
+    "instrucciones": [
+      "Marinar la carne de chivo con ajo, comino, y jugo de limón durante al menos 1 hora.",
+      "Dorar la carne en una sartén con aceite caliente.",
+      "Añadir cebolla, pimiento, y naranjilla, y cocinar hasta que se ablanden.",
+      "Agregar cerveza y cocinar a fuego lento hasta que la carne esté tierna.",
+      "Servir con arroz, yuca, y plátano maduro frito."
+    ],
+    "ingredientes": {
+      "frutas": [
+        {
+          "nombre": "Naranjilla",
+          "cantidad": 2,
+          "unidad": "pieza",
+          "informacionNutricional": {
+            "calorías": 30,
+            "grasas": 0.2,
+            "proteínas": 1,
+            "carbohidratos": 7,
+            "glucosa": 3
+          }
+        },
+        {
+          "nombre": "Plátano Maduro",
+          "cantidad": 2,
+          "unidad": "pieza",
+          "informacionNutricional": {
+            "calorías": 300,
+            "grasas": 0.4,
+            "proteínas": 2,
+            "carbohidratos": 78,
+            "glucosa": 38
+          }
+        }
+      ],
+      "lacteos": null,
+      "proteinas": [
+        {
+          "nombre": "Carne de Chivo",
+          "cantidad": 500,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 1100,
+            "grasas": 90,
+            "proteínas": 70,
+            "carbohidratos": 0,
+            "glucosa": 0
+          }
+        }
+      ],
+      "verduras": [
+        {
+          "nombre": "Cebolla",
+          "cantidad": 1,
+          "unidad": "pieza",
+          "informacionNutricional": {
+            "calorías": 40,
+            "grasas": 0.1,
+            "proteínas": 1,
+            "carbohidratos": 9,
+            "glucosa": 4
+          }
+        },
+        {
+          "nombre": "Pimiento",
+          "cantidad": 1,
+          "unidad": "pieza",
+          "informacionNutricional": {
+            "calorías": 20,
+            "grasas": 0.2,
+            "proteínas": 1,
+            "carbohidratos": 4,
+            "glucosa": 2
+          }
+        },
+        {
+          "nombre": "Yuca",
+          "cantidad": 300,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 480,
+            "grasas": 1,
+            "proteínas": 3,
+            "carbohidratos": 120,
+            "glucosa": 10
+          }
+        }
+      ],
+      "semillas": null
+    },
+    "imagenURL": "https://example.com/seco_de_chivo.jpg"
+  },
+  {
+    "recetaID": "receta_17",
+    "nombre": "Mote con Chicharrón",
+    "descripción": {
+      "detalle": "Plato típico de la sierra que combina mote cocido con chicharrón crujiente.",
+      "región": "Sierra"
+    },
+    "tiempoPreparacion": 60,
+    "instrucciones": [
+      "Cocinar el mote en agua con sal hasta que esté suave.",
+      "Freír el chicharrón en su propia grasa hasta que esté crujiente.",
+      "Servir el mote caliente con el chicharrón encima.",
+      "Acompañar con ají y cebolla curtida."
+    ],
+    "ingredientes": {
+      "frutas": null,
+      "lacteos": null,
+      "proteinas": [
+        {
+          "nombre": "Chicharrón",
+          "cantidad": 200,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 900,
+            "grasas": 80,
+            "proteínas": 40,
+            "carbohidratos": 0,
+            "glucosa": 0
+          }
+        }
+      ],
+      "verduras": [
+        {
+          "nombre": "Cebolla",
+          "cantidad": 1,
+          "unidad": "pieza",
+          "informacionNutricional": {
+            "calorías": 40,
+            "grasas": 0.1,
+            "proteínas": 1,
+            "carbohidratos": 9,
+            "glucosa": 4
+          }
+        }
+      ],
+      "semillas": [
+        {
+          "nombre": "Mote",
+          "cantidad": 300,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 360,
+            "grasas": 3,
+            "proteínas": 12,
+            "carbohidratos": 72,
+            "glucosa": 2
+          }
+        }
+      ]
+    },
+    "imagenURL": "https://example.com/mote_con_chicharron.jpg"
+  },
+  {
+    "recetaID": "receta_18",
+    "nombre": "Tamales",
+    "descripción": {
+      "detalle": "Masa de maíz rellena de carne, envuelta en hojas de achira y cocida al vapor.",
+      "región": "Sierra"
+    },
+    "tiempoPreparacion": 120,
+    "instrucciones": [
+      "Preparar la masa mezclando harina de maíz con manteca y caldo de pollo.",
+      "Colocar un poco de masa sobre una hoja de achira y agregar el relleno de carne.",
+      "Envolver y amarrar los tamales.",
+      "Cocinar al vapor durante 1 hora.",
+      "Servir caliente, acompañado de ají."
+    ],
+    "ingredientes": {
+      "frutas": null,
+      "lacteos": [
+        {
+          "nombre": "Manteca",
+          "cantidad": 100,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 900,
+            "grasas": 100,
+            "proteínas": 0,
+            "carbohidratos": 0,
+            "glucosa": 0
+          }
+        }
+      ],
+      "proteinas": [
+        {
+          "nombre": "Carne de Pollo",
+          "cantidad": 200,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 400,
+            "grasas": 20,
+            "proteínas": 50,
+            "carbohidratos": 0,
+            "glucosa": 0
+          }
+        }
+      ],
+      "verduras": null,
+      "semillas": [
+        {
+          "nombre": "Harina de Maíz",
+          "cantidad": 300,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 1080,
+            "grasas": 9,
+            "proteínas": 21,
+            "carbohidratos": 225,
+            "glucosa": 3
+          }
+        }
+      ]
+    },
+    "imagenURL": "https://example.com/tamales.jpg"
+  },
+  {
+    "recetaID": "receta_19",
+    "nombre": "Empanadas de Morocho",
+    "descripción": {
+      "detalle": "Empanadas hechas con harina de morocho y rellenas de carne o queso.",
+      "región": "Sierra"
+    },
+    "tiempoPreparacion": 60,
+    "instrucciones": [
+      "Mezclar harina de morocho con agua y sal para formar una masa suave.",
+      "Extender la masa y cortar círculos pequeños.",
+      "Rellenar los círculos con carne o queso.",
+      "Cerrar las empanadas, sellarlas y freírlas en aceite caliente.",
+      "Servir caliente, espolvoreadas con azúcar."
+    ],
+    "ingredientes": {
+      "frutas": null,
+      "lacteos": [
+        {
+          "nombre": "Queso Fresco",
+          "cantidad": 200,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 500,
+            "grasas": 40,
+            "proteínas": 30,
+            "carbohidratos": 4,
+            "glucosa": 4
+          }
+        }
+      ],
+      "proteinas": [
+        {
+          "nombre": "Carne de Res",
+          "cantidad": 200,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 480,
+            "grasas": 40,
+            "proteínas": 36,
+            "carbohidratos": 0,
+            "glucosa": 0
+          }
+        }
+      ],
+      "verduras": null,
+      "semillas": [
+        {
+          "nombre": "Harina de Morocho",
+          "cantidad": 300,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 1020,
+            "grasas": 6,
+            "proteínas": 24,
+            "carbohidratos": 216,
+            "glucosa": 2
+          }
+        }
+      ]
+    },
+    "imagenURL": "https://example.com/empanadas_de_morocho.jpg"
+  },
+  {
+    "recetaID": "receta_20",
+    "nombre": "Chicha de Jora",
+    "descripción": {
+      "detalle": "Bebida fermentada de maíz jora, tradicional en las festividades andinas.",
+      "región": "Sierra"
+    },
+    "tiempoPreparacion": 720,
+    "instrucciones": [
+      "Lavar y cocinar el maíz jora en agua hasta que esté blando.",
+      "Dejar fermentar en un recipiente de barro durante 5 a 7 días.",
+      "Colar y servir frío o a temperatura ambiente."
+    ],
+    "ingredientes": {
+      "frutas": null,
+      "lacteos": null,
+      "proteinas": null,
+      "verduras": null,
+      "semillas": [
+        {
+          "nombre": "Maíz Jora",
+          "cantidad": 500,
+          "unidad": "gramos",
+          "informacionNutricional": {
+            "calorías": 1800,
+            "grasas": 15,
+            "proteínas": 60,
+            "carbohidratos": 360,
+            "glucosa": 10
+          }
+        }
+      ]
+    },
+    "imagenURL": "https://example.com/chicha_de_jora.jpg"
+  }
