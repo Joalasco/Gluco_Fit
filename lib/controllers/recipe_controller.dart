@@ -2,7 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/recipe_model.dart';
 
 class RecipeController {
-  final CollectionReference _recipesCollection = FirebaseFirestore.instance.collection('recipes');
+  final CollectionReference _recipesCollection;
+
+  // Constructor que permite inyección de dependencias
+  RecipeController({FirebaseFirestore? firestore})
+      : _recipesCollection = (firestore ?? FirebaseFirestore.instance).collection('recipes');
 
   Future<List<Recipe>> getRecipes() async {
     QuerySnapshot snapshot = await _recipesCollection.get();

@@ -15,52 +15,99 @@ class _RecipeEditViewState extends State<RecipeEditView> {
   final _formKey = GlobalKey<FormState>();
   final RecipeController _controller = RecipeController();
   
-  late String _nombre;
-  late String _descripcionDetalle;
-  late String _descripcionRegion;
-  late int _tiempoPreparacion;
-  late List<String> _instrucciones;
-  late String _imagenURL;
-  late Map<String, List<Ingrediente>> _ingredientes;
+  late TextEditingController _nombreController;
+  late TextEditingController _descripcionDetalleController;
+  late TextEditingController _descripcionRegionController;
+  late TextEditingController _tiempoPreparacionController;
+  late TextEditingController _imagenURLController;
+  late List<TextEditingController> _instruccionesControllers;
+  late Map<String, List<Map<String, TextEditingController>>> _ingredientesControllers;
 
   @override
   void initState() {
     super.initState();
-    _nombre = widget.recipe.nombre;
-    _descripcionDetalle = widget.recipe.descripcion.detalle;
-    _descripcionRegion = widget.recipe.descripcion.region;
-    _tiempoPreparacion = widget.recipe.tiempoPreparacion;
-    _instrucciones = List.from(widget.recipe.instrucciones);
-    _imagenURL = widget.recipe.imagenURL;
-    _ingredientes = {
-      'frutas': widget.recipe.ingredientes.frutas?.toList() ?? [],
-      'lacteos': widget.recipe.ingredientes.lacteos?.toList() ?? [],
-      'proteinas': widget.recipe.ingredientes.proteinas?.toList() ?? [],
-      'verduras': widget.recipe.ingredientes.verduras?.toList() ?? [],
-      'semillas': widget.recipe.ingredientes.semillas?.toList() ?? [],
+    _nombreController = TextEditingController(text: widget.recipe.nombre);
+    _descripcionDetalleController = TextEditingController(text: widget.recipe.descripcion.detalle);
+    _descripcionRegionController = TextEditingController(text: widget.recipe.descripcion.region);
+    _tiempoPreparacionController = TextEditingController(text: widget.recipe.tiempoPreparacion.toString());
+    _imagenURLController = TextEditingController(text: widget.recipe.imagenURL);
+    
+    _instruccionesControllers = widget.recipe.instrucciones
+        .map((instruccion) => TextEditingController(text: instruccion))
+        .toList();
+    
+    _ingredientesControllers = {
+      'frutas': _initIngredientControllers(widget.recipe.ingredientes.frutas),
+      'lacteos': _initIngredientControllers(widget.recipe.ingredientes.lacteos),
+      'proteinas': _initIngredientControllers(widget.recipe.ingredientes.proteinas),
+      'verduras': _initIngredientControllers(widget.recipe.ingredientes.verduras),
+      'semillas': _initIngredientControllers(widget.recipe.ingredientes.semillas),
     };
+  }
+
+  List<Map<String, TextEditingController>> _initIngredientControllers(List<Ingrediente>? ingredientes) {
+    return ingredientes?.map((ingrediente) => {
+      'nombre': TextEditingController(text: ingrediente.nombre),
+      'cantidad': TextEditingController(text: ingrediente.cantidad.toString()),
+      'unidad': TextEditingController(text: ingrediente.unidad),
+      'calorias': TextEditingController(text: ingrediente.informacionNutricional.calorias.toString()),
+      'grasas': TextEditingController(text: ingrediente.informacionNutricional.grasas.toString()),
+      'proteinas': TextEditingController(text: ingrediente.informacionNutricional.proteinas.toString()),
+      'carbohidratos': TextEditingController(text: ingrediente.informacionNutricional.carbohidratos.toString()),
+      'glucosa': TextEditingController(text: ingrediente.informacionNutricional.glucosa.toString()),
+    }).toList() ?? [];
+  }
+
+  @override
+  void dispose() {
+    _nombreController.dispose();
+    _descripcionDetalleController.dispose();
+    _descripcionRegionController.dispose();
+    _tiempoPreparacionController.dispose();
+    _imagenURLController.dispose();
+    for (var controller in _instruccionesControllers) {
+      controller.dispose();
+    }
+    for (var category in _ingredientesControllers.values) {
+      for (var ingredientControllers in category) {
+        ingredientControllers.values.forEach((controller) => controller.dispose());
+      }
+    }
+    super.dispose();
   }
 
   void _addInstruction() {
     setState(() {
-      _instrucciones.add('');
+      _instruccionesControllers.add(TextEditingController());
+    });
+  }
+
+  void _removeInstruction(int index) {
+    setState(() {
+      _instruccionesControllers[index].dispose();
+      _instruccionesControllers.removeAt(index);
     });
   }
 
   void _addIngredient(String category) {
     setState(() {
-      _ingredientes[category]!.add(Ingrediente(
-        nombre: '',
-        cantidad: 0,
-        unidad: '',
-        informacionNutricional: InformacionNutricional(
-          calorias: 0,
-          grasas: 0,
-          proteinas: 0,
-          carbohidratos: 0,
-          glucosa: 0,
-        ),
-      ));
+      _ingredientesControllers[category]!.add({
+        'nombre': TextEditingController(),
+        'cantidad': TextEditingController(),
+        'unidad': TextEditingController(),
+        'calorias': TextEditingController(),
+        'grasas': TextEditingController(),
+        'proteinas': TextEditingController(),
+        'carbohidratos': TextEditingController(),
+        'glucosa': TextEditingController(),
+      });
+    });
+  }
+
+  void _removeIngredient(String category, int index) {
+    setState(() {
+      _ingredientesControllers[category]![index].values.forEach((controller) => controller.dispose());
+      _ingredientesControllers[category]!.removeAt(index);
     });
   }
 
@@ -70,18 +117,24 @@ class _RecipeEditViewState extends State<RecipeEditView> {
       
       final updatedRecipe = Recipe(
         recetaID: widget.recipe.recetaID,
-        nombre: _nombre,
-        descripcion: Descripcion(detalle: _descripcionDetalle, region: _descripcionRegion),
-        tiempoPreparacion: _tiempoPreparacion,
-        instrucciones: _instrucciones.where((i) => i.isNotEmpty).toList(),
-        ingredientes: Ingredientes(
-          frutas: _ingredientes['frutas']!.isNotEmpty ? _ingredientes['frutas'] : null,
-          lacteos: _ingredientes['lacteos']!.isNotEmpty ? _ingredientes['lacteos'] : null,
-          proteinas: _ingredientes['proteinas']!.isNotEmpty ? _ingredientes['proteinas'] : null,
-          verduras: _ingredientes['verduras']!.isNotEmpty ? _ingredientes['verduras'] : null,
-          semillas: _ingredientes['semillas']!.isNotEmpty ? _ingredientes['semillas'] : null,
+        nombre: _nombreController.text,
+        descripcion: Descripcion(
+          detalle: _descripcionDetalleController.text,
+          region: _descripcionRegionController.text
         ),
-        imagenURL: _imagenURL,
+        tiempoPreparacion: int.tryParse(_tiempoPreparacionController.text) ?? 0,
+        instrucciones: _instruccionesControllers
+            .map((controller) => controller.text)
+            .where((text) => text.isNotEmpty)
+            .toList(),
+        ingredientes: Ingredientes(
+          frutas: _buildIngredientesList('frutas'),
+          lacteos: _buildIngredientesList('lacteos'),
+          proteinas: _buildIngredientesList('proteinas'),
+          verduras: _buildIngredientesList('verduras'),
+          semillas: _buildIngredientesList('semillas'),
+        ),
+        imagenURL: _imagenURLController.text,
       );
 
       try {
@@ -95,151 +148,75 @@ class _RecipeEditViewState extends State<RecipeEditView> {
     }
   }
 
+  List<Ingrediente>? _buildIngredientesList(String category) {
+    final ingredientes = _ingredientesControllers[category]!
+        .map((controllers) => Ingrediente(
+              nombre: controllers['nombre']!.text,
+              cantidad: int.tryParse(controllers['cantidad']!.text) ?? 0,
+              unidad: controllers['unidad']!.text,
+              informacionNutricional: InformacionNutricional(
+                calorias: double.tryParse(controllers['calorias']!.text) ?? 0,
+                grasas: double.tryParse(controllers['grasas']!.text) ?? 0,
+                proteinas: double.tryParse(controllers['proteinas']!.text) ?? 0,
+                carbohidratos: double.tryParse(controllers['carbohidratos']!.text) ?? 0,
+                glucosa: double.tryParse(controllers['glucosa']!.text) ?? 0,
+              ),
+            ))
+        .toList();
+    return ingredientes.isNotEmpty ? ingredientes : null;
+  }
+
   Widget _buildIngredientFields(String category, int index) {
-    final ingrediente = _ingredientes[category]![index];
+    final controllers = _ingredientesControllers[category]![index];
     return ExpansionTile(
-      title: Text(ingrediente.nombre.isEmpty ? 'Nuevo Ingrediente' : ingrediente.nombre),
+      title: Text(controllers['nombre']!.text.isEmpty ? 'Nuevo Ingrediente' : controllers['nombre']!.text),
       children: [
         TextFormField(
+          controller: controllers['nombre'],
           decoration: InputDecoration(labelText: 'Nombre'),
-          initialValue: ingrediente.nombre,
-          onChanged: (value) {
-            setState(() {
-              _ingredientes[category]![index] = _updateIngrediente(ingrediente, nombre: value);
-            });
-          },
         ),
         TextFormField(
+          controller: controllers['cantidad'],
           decoration: InputDecoration(labelText: 'Cantidad'),
           keyboardType: TextInputType.number,
-          initialValue: ingrediente.cantidad.toString(),
-          onChanged: (value) {
-            setState(() {
-              _ingredientes[category]![index] = _updateIngrediente(ingrediente, cantidad: int.tryParse(value) ?? 0);
-            });
-          },
         ),
         TextFormField(
+          controller: controllers['unidad'],
           decoration: InputDecoration(labelText: 'Unidad'),
-          initialValue: ingrediente.unidad,
-          onChanged: (value) {
-            setState(() {
-              _ingredientes[category]![index] = _updateIngrediente(ingrediente, unidad: value);
-            });
-          },
         ),
         TextFormField(
+          controller: controllers['calorias'],
           decoration: InputDecoration(labelText: 'Calorías'),
           keyboardType: TextInputType.number,
-          initialValue: ingrediente.informacionNutricional.calorias.toString(),
-          onChanged: (value) {
-            setState(() {
-              _ingredientes[category]![index] = _updateIngrediente(
-                ingrediente,
-                informacionNutricional: _updateInformacionNutricional(
-                  ingrediente.informacionNutricional,
-                  calorias: double.tryParse(value) ?? 0,
-                ),
-              );
-            });
-          },
         ),
         TextFormField(
+          controller: controllers['grasas'],
           decoration: InputDecoration(labelText: 'Grasas'),
           keyboardType: TextInputType.number,
-          initialValue: ingrediente.informacionNutricional.grasas.toString(),
-          onChanged: (value) {
-            setState(() {
-              _ingredientes[category]![index] = _updateIngrediente(
-                ingrediente,
-                informacionNutricional: _updateInformacionNutricional(
-                  ingrediente.informacionNutricional,
-                  grasas: double.tryParse(value) ?? 0,
-                ),
-              );
-            });
-          },
         ),
         TextFormField(
+          controller: controllers['proteinas'],
           decoration: InputDecoration(labelText: 'Proteínas'),
           keyboardType: TextInputType.number,
-          initialValue: ingrediente.informacionNutricional.proteinas.toString(),
-          onChanged: (value) {
-            setState(() {
-              _ingredientes[category]![index] = _updateIngrediente(
-                ingrediente,
-                informacionNutricional: _updateInformacionNutricional(
-                  ingrediente.informacionNutricional,
-                  proteinas: double.tryParse(value) ?? 0,
-                ),
-              );
-            });
-          },
         ),
         TextFormField(
+          controller: controllers['carbohidratos'],
           decoration: InputDecoration(labelText: 'Carbohidratos'),
           keyboardType: TextInputType.number,
-          initialValue: ingrediente.informacionNutricional.carbohidratos.toString(),
-          onChanged: (value) {
-            setState(() {
-              _ingredientes[category]![index] = _updateIngrediente(
-                ingrediente,
-                informacionNutricional: _updateInformacionNutricional(
-                  ingrediente.informacionNutricional,
-                  carbohidratos: double.tryParse(value) ?? 0,
-                ),
-              );
-            });
-          },
         ),
         TextFormField(
+          controller: controllers['glucosa'],
           decoration: InputDecoration(labelText: 'Glucosa'),
           keyboardType: TextInputType.number,
-          initialValue: ingrediente.informacionNutricional.glucosa.toString(),
-          onChanged: (value) {
-            setState(() {
-              _ingredientes[category]![index] = _updateIngrediente(
-                ingrediente,
-                informacionNutricional: _updateInformacionNutricional(
-                  ingrediente.informacionNutricional,
-                  glucosa: double.tryParse(value) ?? 0,
-                ),
-              );
-            });
-          },
+        ),
+        Align(
+          alignment: Alignment.centerRight,
+          child: ElevatedButton(
+            onPressed: () => _removeIngredient(category, index),
+            child: Text('Eliminar Ingrediente'),
+          ),
         ),
       ],
-    );
-  }
-
-  Ingrediente _updateIngrediente(Ingrediente ingrediente, {
-    String? nombre,
-    int? cantidad,
-    String? unidad,
-    InformacionNutricional? informacionNutricional,
-  }) {
-    return Ingrediente(
-      nombre: nombre ?? ingrediente.nombre,
-      cantidad: cantidad ?? ingrediente.cantidad,
-      unidad: unidad ?? ingrediente.unidad,
-      informacionNutricional: informacionNutricional ?? ingrediente.informacionNutricional,
-    );
-  }
-
-  InformacionNutricional _updateInformacionNutricional(
-    InformacionNutricional info, {
-    double? calorias,
-    double? grasas,
-    double? proteinas,
-    double? carbohidratos,
-    double? glucosa,
-  }) {
-    return InformacionNutricional(
-      calorias: calorias ?? info.calorias,
-      grasas: grasas ?? info.grasas,
-      proteinas: proteinas ?? info.proteinas,
-      carbohidratos: carbohidratos ?? info.carbohidratos,
-      glucosa: glucosa ?? info.glucosa,
     );
   }
 
@@ -253,41 +230,46 @@ class _RecipeEditViewState extends State<RecipeEditView> {
           padding: EdgeInsets.all(16.0),
           children: [
             TextFormField(
+              controller: _nombreController,
               decoration: InputDecoration(labelText: 'Nombre'),
-              initialValue: _nombre,
               validator: (value) => value!.isEmpty ? 'Por favor ingrese un nombre' : null,
-              onSaved: (value) => _nombre = value!,
             ),
             TextFormField(
+              controller: _descripcionDetalleController,
               decoration: InputDecoration(labelText: 'Descripción'),
-              initialValue: _descripcionDetalle,
               validator: (value) => value!.isEmpty ? 'Por favor ingrese una descripción' : null,
-              onSaved: (value) => _descripcionDetalle = value!,
             ),
             TextFormField(
+              controller: _descripcionRegionController,
               decoration: InputDecoration(labelText: 'Región'),
-              initialValue: _descripcionRegion,
-              onSaved: (value) => _descripcionRegion = value!,
             ),
             TextFormField(
+              controller: _tiempoPreparacionController,
               decoration: InputDecoration(labelText: 'Tiempo de Preparación (minutos)'),
-              initialValue: _tiempoPreparacion.toString(),
               keyboardType: TextInputType.number,
               validator: (value) => value!.isEmpty ? 'Por favor ingrese el tiempo de preparación' : null,
-              onSaved: (value) => _tiempoPreparacion = int.parse(value!),
             ),
-            ..._instrucciones.asMap().entries.map(
-              (entry) => TextFormField(
-                decoration: InputDecoration(labelText: 'Instrucción ${entry.key + 1}'),
-                initialValue: entry.value,
-                onChanged: (value) => _instrucciones[entry.key] = value,
+            ..._instruccionesControllers.asMap().entries.map(
+              (entry) => Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      controller: entry.value,
+                      decoration: InputDecoration(labelText: 'Instrucción ${entry.key + 1}'),
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () => _removeInstruction(entry.key),
+                  ),
+                ],
               ),
             ),
             ElevatedButton(
               onPressed: _addInstruction,
               child: Text('Agregar Instrucción'),
             ),
-            ..._ingredientes.entries.map((entry) => Column(
+            ..._ingredientesControllers.entries.map((entry) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(entry.key.toUpperCase(), style: Theme.of(context).textTheme.titleLarge),
@@ -301,9 +283,8 @@ class _RecipeEditViewState extends State<RecipeEditView> {
               ],
             )),
             TextFormField(
+              controller: _imagenURLController,
               decoration: InputDecoration(labelText: 'URL de la Imagen'),
-              initialValue: _imagenURL,
-              onSaved: (value) => _imagenURL = value!,
             ),
             SizedBox(height: 20),
             ElevatedButton(

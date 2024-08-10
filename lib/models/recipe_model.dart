@@ -18,15 +18,22 @@ class Recipe {
   });
 
   factory Recipe.fromMap(Map<String, dynamic> map) {
-    return Recipe(
-      recetaID: map['recetaID'],
-      nombre: map['nombre'],
-      descripcion: Descripcion.fromMap(map['descripción']),
-      tiempoPreparacion: map['tiempoPreparacion'],
-      instrucciones: List<String>.from(map['instrucciones']),
-      ingredientes: Ingredientes.fromMap(map['ingredientes']),
-      imagenURL: map['imagenURL'],
-    );
+    try {
+      return Recipe(
+        recetaID: map['recetaID'] ?? '',
+        nombre: map['nombre'] ?? '',
+        descripcion: Descripcion.fromMap(map['descripción'] ?? {}),
+        tiempoPreparacion: map['tiempoPreparacion'] ?? 0,
+        instrucciones: List<String>.from(map['instrucciones'] ?? []),
+        ingredientes: Ingredientes.fromMap(map['ingredientes'] ?? {}),
+        imagenURL: map['imagenURL'] ?? '',
+      );
+    } catch (e, stackTrace) {
+      print('Error al crear Recipe desde map: $e');
+      print('StackTrace: $stackTrace');
+      print('Map recibido: $map');
+      rethrow;
+    }
   }
 
   Map<String, dynamic> toMap() {
@@ -50,8 +57,8 @@ class Descripcion {
 
   factory Descripcion.fromMap(Map<String, dynamic> map) {
     return Descripcion(
-      detalle: map['detalle'],
-      region: map['región'],
+      detalle: map['detalle'] ?? '',
+      region: map['región'] ?? '',
     );
   }
 
@@ -118,10 +125,10 @@ class Ingrediente {
 
   factory Ingrediente.fromMap(Map<String, dynamic> map) {
     return Ingrediente(
-      nombre: map['nombre'],
-      cantidad: map['cantidad'],
-      unidad: map['unidad'],
-      informacionNutricional: InformacionNutricional.fromMap(map['informacionNutricional']),
+      nombre: map['nombre'] ?? '',
+      cantidad: map['cantidad'] ?? 0,
+      unidad: map['unidad'] ?? '',
+      informacionNutricional: InformacionNutricional.fromMap(map['informacionNutricional'] ?? {}),
     );
   }
 
@@ -152,11 +159,11 @@ class InformacionNutricional {
 
   factory InformacionNutricional.fromMap(Map<String, dynamic> map) {
     return InformacionNutricional(
-      calorias: map['calorías'].toDouble(),
-      grasas: map['grasas'].toDouble(),
-      proteinas: map['proteínas'].toDouble(),
-      carbohidratos: map['carbohidratos'].toDouble(),
-      glucosa: map['glucosa'].toDouble(),
+      calorias: (map['calorías'] ?? 0).toDouble(),
+      grasas: (map['grasas'] ?? 0).toDouble(),
+      proteinas: (map['proteínas'] ?? 0).toDouble(),
+      carbohidratos: (map['carbohidratos'] ?? 0).toDouble(),
+      glucosa: (map['glucosa'] ?? 0).toDouble(),
     );
   }
 
