@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class RecipesPage extends StatelessWidget {
+class DisenioMenuPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
