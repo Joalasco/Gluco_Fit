@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/recipe_model.dart';
-import '../../controllers/recipe_controller.dart';
-import 'recipe_edit_view.dart';
+import '../../services/diabetes_service.dart';
 
 class RecipeDetailView extends StatefulWidget {
   final Recipe recipe;
@@ -13,8 +12,83 @@ class RecipeDetailView extends StatefulWidget {
 }
 
 class _RecipeDetailViewState extends State<RecipeDetailView> {
-  final RecipeController controller = RecipeController();
+  final DiabetesService diabetesService = DiabetesService();
   late Recipe _recipe = widget.recipe;
+  String diabetesStatus = ""; // Texto vacío inicialmente
+  bool isDiabetesStatusVisible =
+      false; // Para controlar la visibilidad del texto
+
+  void _checkDiabetesStatus() async {
+    // Inicializar valores nutricionales
+    double totalCalorias = 0;
+    double totalGrasas = 0;
+    double totalProteinas = 0;
+    double totalCarbohidratos = 0;
+    double totalGlucosa = 0;
+
+    int totalFrutas = _recipe.ingredientes.frutas?.length ?? 0;
+    int totalLacteos = _recipe.ingredientes.lacteos?.length ?? 0;
+    int totalProteinasIng = _recipe.ingredientes.proteinas?.length ?? 0;
+    int totalVerduras = _recipe.ingredientes.verduras?.length ?? 0;
+    int totalSemillas = _recipe.ingredientes.semillas?.length ?? 0;
+
+    // Sumar valores nutricionales de cada ingrediente
+    _sumarValoresNutricionales(List<Ingrediente>? ingredientes) {
+      if (ingredientes != null) {
+        for (var ingrediente in ingredientes) {
+          totalCalorias += ingrediente.informacionNutricional.calorias;
+          totalGrasas += ingrediente.informacionNutricional.grasas;
+          totalProteinas += ingrediente.informacionNutricional.proteinas;
+          totalCarbohidratos +=
+              ingrediente.informacionNutricional.carbohidratos;
+          totalGlucosa += ingrediente.informacionNutricional.glucosa;
+        }
+      }
+    }
+
+    _sumarValoresNutricionales(_recipe.ingredientes.proteinas);
+    _sumarValoresNutricionales(_recipe.ingredientes.frutas);
+    _sumarValoresNutricionales(_recipe.ingredientes.lacteos);
+    _sumarValoresNutricionales(_recipe.ingredientes.verduras);
+    _sumarValoresNutricionales(_recipe.ingredientes.semillas);
+
+    // Mapa de las regiones
+    Map<String, int> regionMap = {
+      "Costa": 1,
+      "Sierra": 2,
+      "Oriente": 3,
+      // Añadir más regiones según sea necesario
+    };
+
+    // Convertir la región a un número utilizando el mapa
+    int regionValue = regionMap[_recipe.region] ??
+        0; // Por defecto a 0 si la región no existe
+
+    // Construir los datos para enviar a la API según la estructura correcta
+    Map<String, dynamic> data = {
+      "Region": regionValue,
+      "TiempoPrep": _recipe.tiempoPreparacion,
+      "Calorias": totalCalorias,
+      "Grasas": totalGrasas,
+      "Proteinas": totalProteinas,
+      "Carbohidratos": totalCarbohidratos,
+      "Glucosa": totalGlucosa,
+      "Frutas": totalFrutas,
+      "Lacteos": totalLacteos,
+      "ProteinasIng": totalProteinasIng,
+      "Verduras": totalVerduras,
+      "Semillas": totalSemillas,
+      "TipoDiabetes": 2 // Asegúrate de pasar el tipo de diabetes correctamente
+    };
+
+    // Llamar al servicio y actualizar el estado
+    String result = await diabetesService.checkDiabetesStatus(data);
+    setState(() {
+      diabetesStatus =
+          result == "1" ? "Apto para diabetes" : "No apto para diabetes";
+      isDiabetesStatusVisible = true; // Mostrar el texto con el resultado
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,56 +102,6 @@ class _RecipeDetailViewState extends State<RecipeDetailView> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(_recipe.nombre, style: TextStyle(color: Colors.black)),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.edit, color: Colors.black),
-            onPressed: () async {
-              final result = await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => RecipeEditView(recipe: _recipe),
-                ),
-              );
-              if (result == true) {
-                Navigator.pop(context, true);
-              } else {
-                setState(() {});
-              }
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.delete, color: Colors.black),
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: Text('Eliminar Receta'),
-                  content: Text('¿Estás seguro de que quieres eliminar esta receta?'),
-                  actions: [
-                    TextButton(
-                      child: Text('Cancelar'),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                    TextButton(
-                      child: Text('Eliminar'),
-                      onPressed: () async {
-                        try {
-                          await controller.deleteRecipe(_recipe.recetaID);
-                          Navigator.pop(context);
-                          Navigator.pop(context, true);
-                        } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Error al eliminar la receta: $e')),
-                          );
-                        }
-                      },
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -118,9 +142,25 @@ class _RecipeDetailViewState extends State<RecipeDetailView> {
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                   ..._recipe.instrucciones.map((step) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4.0),
-                    child: Text('• $step'),
-                  )),
+                        padding: const EdgeInsets.symmetric(vertical: 4.0),
+                        child: Text('• $step'),
+                      )),
+                  SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: _checkDiabetesStatus,
+                    child: Text('Consultar si es apto para diabetes'),
+                  ),
+                  SizedBox(height: 16),
+                  Visibility(
+                    visible: isDiabetesStatusVisible,
+                    child: Text(
+                      diabetesStatus,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Colors.blue),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -132,11 +172,13 @@ class _RecipeDetailViewState extends State<RecipeDetailView> {
 
   Widget _buildIngredientList(Ingredientes ingredientes) {
     List<Widget> ingredientWidgets = [];
-    
+
     void addIngredients(String category, List<Ingrediente>? ingredients) {
       if (ingredients != null && ingredients.isNotEmpty) {
-        ingredientWidgets.add(Text(category, style: TextStyle(fontWeight: FontWeight.bold)));
-        ingredientWidgets.addAll(ingredients.map((i) => Text('• ${i.nombre}: ${i.cantidad} ${i.unidad}')));
+        ingredientWidgets
+            .add(Text(category, style: TextStyle(fontWeight: FontWeight.bold)));
+        ingredientWidgets.addAll(ingredients
+            .map((i) => Text('• ${i.nombre}: ${i.cantidad} ${i.unidad}')));
       }
     }
 
@@ -146,6 +188,8 @@ class _RecipeDetailViewState extends State<RecipeDetailView> {
     addIngredients('Verduras', ingredientes.verduras);
     addIngredients('Semillas', ingredientes.semillas);
 
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: ingredientWidgets);
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: ingredientWidgets);
   }
 }
