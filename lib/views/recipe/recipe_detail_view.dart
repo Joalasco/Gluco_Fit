@@ -19,11 +19,18 @@ class _RecipeDetailViewState extends State<RecipeDetailView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFD1F3E7), // Fondo verde claro
       appBar: AppBar(
-        title: Text(_recipe.nombre),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: Text(_recipe.nombre, style: TextStyle(color: Colors.black)),
         actions: [
           IconButton(
-            icon: Icon(Icons.edit),
+            icon: Icon(Icons.edit, color: Colors.black),
             onPressed: () async {
               final result = await Navigator.push(
                 context,
@@ -39,7 +46,7 @@ class _RecipeDetailViewState extends State<RecipeDetailView> {
             },
           ),
           IconButton(
-            icon: Icon(Icons.delete),
+            icon: Icon(Icons.delete, color: Colors.black),
             onPressed: () {
               showDialog(
                 context: context,
@@ -73,24 +80,50 @@ class _RecipeDetailViewState extends State<RecipeDetailView> {
         ],
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Descripción:', style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(_recipe.descripcion.detalle),
-            Text('Región: ${_recipe.descripcion.region}'),
-            SizedBox(height: 16),
-            Text('Tiempo de Preparación:', style: TextStyle(fontWeight: FontWeight.bold)),
-            Text('${_recipe.tiempoPreparacion} minutos'),
-            SizedBox(height: 16),
-            Text('Ingredientes:', style: TextStyle(fontWeight: FontWeight.bold)),
-            _buildIngredientList(_recipe.ingredientes),
-            SizedBox(height: 16),
-            Text('Instrucciones:', style: TextStyle(fontWeight: FontWeight.bold)),
-            ..._recipe.instrucciones.map((step) => Text('• $step')),
-            SizedBox(height: 16),
-            Image.network(_recipe.imagenURL, height: 200, width: double.infinity, fit: BoxFit.cover),
+            Image.network(
+              _recipe.imagenURL,
+              height: 200,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Descripción:',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                  Text(_recipe.descripcion.detalle),
+                  Text('Región: ${_recipe.descripcion.region}'),
+                  SizedBox(height: 16),
+                  Text(
+                    'Tiempo de Preparación:',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                  Text('${_recipe.tiempoPreparacion} minutos'),
+                  SizedBox(height: 16),
+                  Text(
+                    'Ingredientes:',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                  _buildIngredientList(_recipe.ingredientes),
+                  SizedBox(height: 16),
+                  Text(
+                    'Instrucciones:',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                  ..._recipe.instrucciones.map((step) => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4.0),
+                    child: Text('• $step'),
+                  )),
+                ],
+              ),
+            ),
           ],
         ),
       ),
