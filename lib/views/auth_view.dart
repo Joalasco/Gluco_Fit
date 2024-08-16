@@ -1,11 +1,11 @@
-// lib/views/auth_view.dart
-
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../controllers/auth_controller.dart';
 import '../services/google_auth_service.dart';
+import '../services/preference_service.dart';
 import 'register_view.dart';
-import 'home_view.dart';
+import 'preference_onboarding_view.dart';
+import '../views/recipe/recipe_list_view.dart';
 
 class AuthView extends StatefulWidget {
   @override
@@ -15,15 +15,25 @@ class AuthView extends StatefulWidget {
 class _AuthViewState extends State<AuthView> {
   final AuthController _authController = AuthController();
   final GoogleAuthService _googleAuthService = GoogleAuthService();
+  final PreferenceService _preferenceService = PreferenceService();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   bool _isLoading = false;
 
-  void _navigateToHome() {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => HomeView()),
-    );
+  void _navigateAfterSignIn() async {
+    final preferences = await _preferenceService.getUserPreferences();
+    if (preferences.favoriteRegions.isEmpty) {
+      // El usuario no ha completado el onboarding
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => PreferenceOnboardingView()),
+      );
+    } else {
+      // El usuario ya tiene preferencias, ir directamente a RecipeListView
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => RecipeListView()),
+      );
+    }
   }
 
   Future<void> _signInWithGoogle() async {
@@ -33,7 +43,7 @@ class _AuthViewState extends State<AuthView> {
     try {
       final user = await _googleAuthService.signInWithGoogle();
       if (user != null) {
-        _navigateToHome();
+        _navigateAfterSignIn();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error al iniciar sesión con Google')),
@@ -102,7 +112,7 @@ class _AuthViewState extends State<AuthView> {
                             _passwordController.text,
                           );
                           if (user != null) {
-                            _navigateToHome();
+                            _navigateAfterSignIn();
                           }
                         } catch (e) {
                           ScaffoldMessenger.of(context).showSnackBar(

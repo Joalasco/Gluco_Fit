@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../controllers/recipe_controller.dart';
 import '../../models/recipe_model.dart';
+import '../../services/preference_service.dart';
+import '../../models/preference_model.dart';
 import 'recipe_detail_view.dart';
 import 'recipe_create_view.dart';
 
@@ -11,21 +13,40 @@ class RecipeListView extends StatefulWidget {
 
 class _RecipeListViewState extends State<RecipeListView> {
   final RecipeController controller = RecipeController();
+  final PreferenceService _preferenceService = PreferenceService();
   List<Recipe> recipes = [];
   bool isLoading = true;
   String selectedRegion = 'Sierra';
+  late UserPreferences userPreferences;
 
   @override
   void initState() {
     super.initState();
-    _loadRecipes();
+    _loadPreferencesAndRecipes();
+  }
+
+  Future _loadPreferencesAndRecipes() async {
+    try {
+      userPreferences = await _preferenceService.getUserPreferences();
+      selectedRegion = userPreferences.favoriteRegions.isNotEmpty 
+          ? userPreferences.favoriteRegions.first 
+          : 'Sierra';
+      await _loadRecipes();
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error al cargar preferencias: $e')),
+      );
+    }
   }
 
   Future _loadRecipes() async {
     try {
       final loadedRecipes = await controller.getRecipes();
       setState(() {
-        recipes = loadedRecipes.where((recipe) => recipe.region == selectedRegion).toList();
+        recipes = loadedRecipes.where((recipe) {
+          return recipe.region == selectedRegion &&
+                 _recipeMatchesPreferences(recipe);
+        }).toList();
         isLoading = false;
       });
     } catch (e) {
@@ -36,6 +57,15 @@ class _RecipeListViewState extends State<RecipeListView> {
         SnackBar(content: Text('Error al cargar las recetas: $e')),
       );
     }
+  }
+
+  bool _recipeMatchesPreferences(Recipe recipe) {
+    if (!userPreferences.likesFrutas && recipe.ingredientes.frutas?.isNotEmpty == true) return false;
+    if (!userPreferences.likesVerduras && recipe.ingredientes.verduras?.isNotEmpty == true) return false;
+    if (!userPreferences.likesLacteos && recipe.ingredientes.lacteos?.isNotEmpty == true) return false;
+    if (!userPreferences.likesProteinas && recipe.ingredientes.proteinas?.isNotEmpty == true) return false;
+    if (!userPreferences.likesSemillas && recipe.ingredientes.semillas?.isNotEmpty == true) return false;
+    return true;
   }
 
   @override
@@ -81,34 +111,21 @@ class _RecipeListViewState extends State<RecipeListView> {
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          ElevatedButton(
-            child: Text('Sierra'),
+        children: ['Sierra', 'Costa'].map((region) {
+          return ElevatedButton(
+            child: Text(region),
             onPressed: () {
               setState(() {
-                selectedRegion = 'Sierra';
+                selectedRegion = region;
                 _loadRecipes();
               });
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: selectedRegion == 'Sierra' ? Colors.green : Colors.grey,
+              backgroundColor: selectedRegion == region ? Colors.green : Colors.grey,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             ),
-          ),
-          ElevatedButton(
-            child: Text('Costa'),
-            onPressed: () {
-              setState(() {
-                selectedRegion = 'Costa';
-                _loadRecipes();
-              });
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: selectedRegion == 'Costa' ? Colors.green : Colors.grey,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            ),
-          ),
-        ],
+          );
+        }).toList(),
       ),
     );
   }
@@ -144,7 +161,7 @@ class _RecipeListViewState extends State<RecipeListView> {
           children: [
             CircleAvatar(
               radius: 50,
-              backgroundImage: NetworkImage(recipe.imagenURL), // You might want to replace this with actual recipe image
+              backgroundImage: NetworkImage(recipe.imagenURL),
             ),
             SizedBox(height: 10),
             Text(recipe.nombre, style: TextStyle(fontWeight: FontWeight.bold)),
