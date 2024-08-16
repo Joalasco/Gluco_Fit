@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import '../controllers/auth_controller.dart';
 import 'recipe/recipe_list_view.dart';
 import 'auth_view.dart';
+import '../services/recipe_upload_service.dart'; // Asegúrate de usar la ruta correcta
 
 class HomeView extends StatelessWidget {
   final AuthController _authController = AuthController();
+  final RecipeUploadService _uploadService = RecipeUploadService();
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +47,8 @@ class HomeView extends StatelessWidget {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: Image.asset('lib/assets/glucofit_logo.jpeg', fit: BoxFit.contain),
+                  child: Image.asset('lib/assets/glucofit_logo.jpeg',
+                      fit: BoxFit.contain),
                 ),
               ),
               SizedBox(height: 30),
@@ -55,7 +58,25 @@ class HomeView extends StatelessWidget {
               SizedBox(height: 15),
               _buildMenuItem(Icons.book, 'Recursos educativos'),
               SizedBox(height: 15),
-              
+
+              // Botón pequeño para subir recetas
+              Center(
+                child: ElevatedButton(
+                  onPressed: () async {
+                    await _uploadService.uploadRecipesFromFile(
+                        'lib/assets/resources/recetasSierra.txt');
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Recetas subidas correctamente')),
+                    );
+                  },
+                  child: Text('Subir Recetas'),
+                  style: ElevatedButton.styleFrom(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                    textStyle: TextStyle(fontSize: 14),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -65,9 +86,11 @@ class HomeView extends StatelessWidget {
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.restaurant_menu), label: 'Recetas'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.restaurant_menu), label: 'Recetas'),
           BottomNavigationBarItem(icon: Icon(Icons.menu_book), label: 'Menús'),
-          BottomNavigationBarItem(icon: Icon(Icons.recommend), label: 'Recomendaciones'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.recommend), label: 'Recomendaciones'),
         ],
         onTap: (index) {
           if (index == 1) {
