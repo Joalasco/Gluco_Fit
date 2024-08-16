@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import '../controllers/auth_controller.dart';
 import '../services/google_auth_service.dart';
 import 'home_view.dart';
+import 'package:firebase_auth/firebase_auth.dart'; // Importa FirebaseAuth para la autenticación
 
+//inicio de desarrollo de logica de validacion
 class RegisterView extends StatefulWidget {
   @override
   _RegisterViewState createState() => _RegisterViewState();
@@ -42,6 +44,59 @@ class _RegisterViewState extends State<RegisterView> {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: $e')),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _registerWithEmailPassword() async {
+    if (_passwordController.text != _confirmPasswordController.text) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Las contraseñas no coinciden')),
+      );
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+
+      if (userCredential.user != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Registro exitoso')),
+        );
+        _navigateToHome();
+      }
+    } on FirebaseAuthException catch (e) {
+      String errorMessage;
+      switch (e.code) {
+        case 'weak-password':
+          errorMessage = 'La contraseña es demasiado débil.';
+          break;
+        case 'email-already-in-use':
+          errorMessage = 'La cuenta ya existe para este correo.';
+          break;
+        case 'invalid-email':
+          errorMessage = 'El correo no es válido.';
+          break;
+        default:
+          errorMessage = 'Error en el registro: ${e.message}';
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMessage)),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error en el registro: $e')),
       );
     } finally {
       setState(() {
@@ -125,31 +180,7 @@ class _RegisterViewState extends State<RegisterView> {
                       foregroundColor: Colors.white,
                       padding: EdgeInsets.symmetric(vertical: 15),
                     ),
-                    onPressed: () async {
-                      if (_passwordController.text != _confirmPasswordController.text) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Las contraseñas no coinciden')),
-                        );
-                        return;
-                      }
-                      try {
-                        await _authController.registerUser(
-                          _emailController.text,
-                          _passwordController.text,
-                          '', // Nombre (vacío por ahora)
-                          0, // Edad (0 por ahora)
-                          '', // Género (vacío por ahora)
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Registro exitoso')),
-                        );
-                        _navigateToHome();
-                      } catch (e) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Error en el registro: $e')),
-                        );
-                      }
-                    },
+                    onPressed: _registerWithEmailPassword, // Llama al método de registro
                   ),
                   SizedBox(height: 20),
                   Text('Registrarse con', textAlign: TextAlign.center),
