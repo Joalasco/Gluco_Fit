@@ -7,6 +7,7 @@ import 'home_view.dart';
 import 'package:firebase_auth/firebase_auth.dart'; // Importa FirebaseAuth para la autenticación
 
 //inicio de desarrollo de logica de validacion
+//pruebas unitarias
 class RegisterView extends StatefulWidget {
   @override
   _RegisterViewState createState() => _RegisterViewState();

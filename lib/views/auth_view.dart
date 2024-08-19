@@ -7,6 +7,8 @@ import '../services/google_auth_service.dart';
 import 'register_view.dart';
 import 'home_view.dart';
 //inicio de logica de validacion para auth_view 
+//Pruebas de logica de validacion 
+//
 class AuthView extends StatefulWidget {
   @override
   _AuthViewState createState() => _AuthViewState();

@@ -1,7 +1,7 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
-export "FLUTTER_ROOT=C:\dev\flutter"
-export "FLUTTER_APPLICATION_PATH=D:\Gluco v2\Gluco_Fit"
+export "FLUTTER_ROOT=C:\src\flutter"
+export "FLUTTER_APPLICATION_PATH=D:\Diego\Universidad\8_Octavo Semestre\DESARROLLO DE SOFTWARE APLICADO AL DOMINIO DE LA INTERCULTURALIDAD\TERCER_PARCIAL\Gluco_Fit"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
 export "FLUTTER_BUILD_DIR=build"
 export "FLUTTER_BUILD_NAME=1.0.0"
