@@ -17,7 +17,7 @@ class _RecipeListViewState extends State<RecipeListView> {
   List<Recipe> recipes = [];
   bool isLoading = true;
   String selectedRegion = 'Sierra';
-  late UserPreferences userPreferences;
+  UserPreferences? userPreferences;
 
   @override
   void initState() {
@@ -28,15 +28,35 @@ class _RecipeListViewState extends State<RecipeListView> {
   Future _loadPreferencesAndRecipes() async {
     try {
       userPreferences = await _preferenceService.getUserPreferences();
-      selectedRegion = userPreferences.favoriteRegions.isNotEmpty 
-          ? userPreferences.favoriteRegions.first 
-          : 'Sierra';
+      if (userPreferences != null) {
+        selectedRegion = userPreferences!.favoriteRegions.isNotEmpty 
+            ? userPreferences!.favoriteRegions.first 
+            : 'Sierra';
+      } else {
+        // Si no hay preferencias, mostrar un diálogo para configurarlas
+        await _showPreferenceDialog();
+      }
       await _loadRecipes();
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error al cargar preferencias: $e')),
       );
     }
+  }
+
+  Future _showPreferenceDialog() async {
+    // Implementa un diálogo para que el usuario configure sus preferencias
+    // Luego guarda esas preferencias usando _preferenceService.saveUserPreferences()
+    // Por ahora, vamos a establecer algunas preferencias por defecto
+    userPreferences = UserPreferences(
+      likesFrutas: true,
+      likesVerduras: true,
+      likesLacteos: true,
+      likesProteinas: true,
+      likesSemillas: true,
+      favoriteRegions: ['Sierra', 'Costa'],
+    );
+    await _preferenceService.saveUserPreferences(userPreferences!);
   }
 
   Future _loadRecipes() async {
@@ -60,11 +80,12 @@ class _RecipeListViewState extends State<RecipeListView> {
   }
 
   bool _recipeMatchesPreferences(Recipe recipe) {
-    if (!userPreferences.likesFrutas && recipe.ingredientes.frutas?.isNotEmpty == true) return false;
-    if (!userPreferences.likesVerduras && recipe.ingredientes.verduras?.isNotEmpty == true) return false;
-    if (!userPreferences.likesLacteos && recipe.ingredientes.lacteos?.isNotEmpty == true) return false;
-    if (!userPreferences.likesProteinas && recipe.ingredientes.proteinas?.isNotEmpty == true) return false;
-    if (!userPreferences.likesSemillas && recipe.ingredientes.semillas?.isNotEmpty == true) return false;
+    if (userPreferences == null) return true;
+    if (!userPreferences!.likesFrutas && recipe.ingredientes.frutas?.isNotEmpty == true) return false;
+    if (!userPreferences!.likesVerduras && recipe.ingredientes.verduras?.isNotEmpty == true) return false;
+    if (!userPreferences!.likesLacteos && recipe.ingredientes.lacteos?.isNotEmpty == true) return false;
+    if (!userPreferences!.likesProteinas && recipe.ingredientes.proteinas?.isNotEmpty == true) return false;
+    if (!userPreferences!.likesSemillas && recipe.ingredientes.semillas?.isNotEmpty == true) return false;
     return true;
   }
 

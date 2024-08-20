@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import '../controllers/auth_controller.dart';
 import '../services/google_auth_service.dart';
-import '../services/preference_service.dart';
+import '../models/user_model.dart' as AppUser;
 import 'register_view.dart';
 import 'preference_onboarding_view.dart';
 import '../views/recipe/recipe_list_view.dart';
@@ -15,21 +14,18 @@ class AuthView extends StatefulWidget {
 class _AuthViewState extends State<AuthView> {
   final AuthController _authController = AuthController();
   final GoogleAuthService _googleAuthService = GoogleAuthService();
-  final PreferenceService _preferenceService = PreferenceService();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   bool _isLoading = false;
 
   void _navigateAfterSignIn() async {
-    final preferences = await _preferenceService.getUserPreferences();
-    if (preferences.favoriteRegions.isEmpty) {
-      // El usuario no ha completado el onboarding
+    final isFirstTime = await _authController.isFirstTimeUser();
+    if (isFirstTime) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => PreferenceOnboardingView()),
       );
     } else {
-      // El usuario ya tiene preferencias, ir directamente a RecipeListView
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => RecipeListView()),
       );
@@ -106,6 +102,9 @@ class _AuthViewState extends State<AuthView> {
                     SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () async {
+                        setState(() {
+                          _isLoading = true;
+                        });
                         try {
                           final user = await _authController.signIn(
                             _emailController.text,
@@ -118,6 +117,10 @@ class _AuthViewState extends State<AuthView> {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('Error en el inicio de sesión: $e')),
                           );
+                        } finally {
+                          setState(() {
+                            _isLoading = false;
+                          });
                         }
                       },
                       child: Text('Ingresar', style: TextStyle(fontSize: 18)),

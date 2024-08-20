@@ -10,9 +10,15 @@ class PreferenceOnboardingView extends StatefulWidget {
 
 class _PreferenceOnboardingViewState extends State<PreferenceOnboardingView> {
   final PageController _pageController = PageController();
-  final UserPreferences _preferences = UserPreferences();
+  late UserPreferences _preferences;
   final PreferenceService _preferenceService = PreferenceService();
   int _currentPage = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _preferences = UserPreferences();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +113,9 @@ class _PreferenceOnboardingViewState extends State<PreferenceOnboardingView> {
           onChanged: (bool? value) {
             setState(() {
               if (value == true) {
-                _preferences.favoriteRegions.add(region);
+                if (!_preferences.favoriteRegions.contains(region)) {
+                  _preferences.favoriteRegions.add(region);
+                }
               } else {
                 _preferences.favoriteRegions.remove(region);
               }

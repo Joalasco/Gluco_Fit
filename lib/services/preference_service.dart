@@ -15,19 +15,25 @@ class PreferenceService {
     }
   }
 
-  Future<UserPreferences> getUserPreferences() async {
+  Future<UserPreferences?> getUserPreferences() async {
     final userId = _auth.currentUser?.uid;
     if (userId != null) {
       final doc = await _firestore.collection('user_preferences').doc(userId).get();
       if (doc.exists) {
         return UserPreferences.fromMap(doc.data()!);
       } else {
-        // Si no existen preferencias, crea unas por defecto
-        final defaultPreferences = UserPreferences();
-        await saveUserPreferences(defaultPreferences);
-        return defaultPreferences;
+        return null; // Retorna null si no existen preferencias
       }
     }
     throw Exception('No user logged in');
+  }
+
+  Future<bool> hasUserPreferences() async {
+    final userId = _auth.currentUser?.uid;
+    if (userId != null) {
+      final doc = await _firestore.collection('user_preferences').doc(userId).get();
+      return doc.exists;
+    }
+    return false;
   }
 }

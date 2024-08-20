@@ -12,8 +12,8 @@ class UserPreferences {
     this.likesLacteos = true,
     this.likesProteinas = true,
     this.likesSemillas = true,
-    this.favoriteRegions = const ['Sierra', 'Costa'],
-  });
+    List<String>? favoriteRegions,
+  }) : this.favoriteRegions = favoriteRegions ?? ['Sierra', 'Costa'];
 
   Map<String, dynamic> toMap() {
     return {
