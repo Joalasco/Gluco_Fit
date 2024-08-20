@@ -52,6 +52,49 @@ class _AuthViewState extends State<AuthView> {
     }
   }
 
+  bool _validateEmail(String email) {
+    final emailRegExp = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+    return emailRegExp.hasMatch(email);
+  }
+
+  Future<void> _signIn() async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Por favor, ingresa tu correo y contraseña')),
+      );
+      return;
+    }
+
+    if (!_validateEmail(email)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Por favor, ingresa un correo electrónico válido')),
+      );
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final user = await _authController.signIn(email, password);
+      if (user != null) {
+        _navigateToHome();
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error en el inicio de sesión: $e')),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,21 +140,7 @@ class _AuthViewState extends State<AuthView> {
                     ),
                     SizedBox(height: 20),
                     ElevatedButton(
-                      onPressed: () async {
-                        try {
-                          final user = await _authController.signIn(
-                            _emailController.text,
-                            _passwordController.text,
-                          );
-                          if (user != null) {
-                            _navigateToHome();
-                          }
-                        } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Error en el inicio de sesión: $e')),
-                          );
-                        }
-                      },
+                      onPressed: _signIn,
                       child: Text('Ingresar', style: TextStyle(fontSize: 18)),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
