@@ -71,7 +71,7 @@
       ],
       "semillas": null
     },
-    "imagenURL": "https://example.com/locro_de_papas.jpg"
+    "imagenURL": "https://www.comedera.com/wp-content/uploads/2022/08/locro-de-papas.jpg"
   },
   { 
     "recetaID": "receta_02",
@@ -132,6 +132,6 @@
         }
       ]
     },
-    "imagenURL": "https://example.com/cuy_asado.jpg"
+    "imagenURL": "https://cuyperu.com/wp-content/uploads/2023/07/000258537M-1.jpg"
   }
 ]
