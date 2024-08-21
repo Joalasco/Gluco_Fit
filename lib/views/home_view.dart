@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import '../controllers/auth_controller.dart';
 import 'recipe/recipe_list_view.dart';
 import 'auth_view.dart';
-import '../services/recipe_upload_service.dart'; // Asegúrate de usar la ruta correcta
+import '../services/recipe_upload_service.dart';
+import 'recomendacion_view.dart'; // Importa la nueva vista
 
 class HomeView extends StatelessWidget {
   final AuthController _authController = AuthController();
@@ -13,36 +14,27 @@ class HomeView extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color(0xFFD1F3E7),
       appBar: AppBar(
-        title: Text('Menú Principal'),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.exit_to_app),
-            onPressed: () async {
-              await _authController.signOut();
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => AuthView()),
-              );
-            },
-          ),
-        ],
+        toolbarHeight: 0, // Oculta el AppBar
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              SizedBox(height: 16),
               Text(
                 'Bienvenid@ de vuelta, Name',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
               ),
               SizedBox(height: 20),
               Center(
                 child: Container(
-                  width: 150,
-                  height: 150,
+                  width: 250,
+                  height: 250,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
@@ -52,29 +44,31 @@ class HomeView extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 30),
-              _buildMenuItem(Icons.lock, 'Feedback'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _buildMenuItem(Icons.lock, 'Feedback'),
+                  _buildMenuItem(Icons.question_answer, 'FAQ'),
+                ],
+              ),
               SizedBox(height: 15),
-              _buildMenuItem(Icons.question_answer, 'FAQ'),
-              SizedBox(height: 15),
-              _buildMenuItem(Icons.book, 'Recursos educativos'),
-              SizedBox(height: 15),
-
-              // Botón pequeño para subir recetas
-              Center(
-                child: ElevatedButton(
-                  onPressed: () async {
-                    await _uploadService.uploadRecipesFromFile(
-                        'lib/assets/resources/recetasSierra.txt');
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Recetas subidas correctamente')),
-                    );
-                  },
-                  child: Text('Subir Recetas'),
-                  style: ElevatedButton.styleFrom(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                    textStyle: TextStyle(fontSize: 14),
-                  ),
+              _buildMenuItem(Icons.book, 'Recursos educativos', isCentered: true),
+              SizedBox(height: 30),
+              Text(
+                'Recomendaciones del día',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 50),
+              Expanded(
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    _buildRecommendationItem('lib/assets/ensalada_verde.jpg',
+                        'Ensalada verde', '2 servings', context),
+                    _buildRecommendationItem('lib/assets/ensalada_verde.jpeg',
+                        'Ensalada verde', '2 servings', context),
+                    // Agrega más recomendaciones si es necesario
+                  ],
                 ),
               ),
             ],
@@ -105,20 +99,58 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Widget _buildMenuItem(IconData icon, String title, {VoidCallback? onTap}) {
+  Widget _buildMenuItem(IconData icon, String title, {bool isCentered = false}) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Row(
+        mainAxisAlignment:
+            isCentered ? MainAxisAlignment.center : MainAxisAlignment.start,
+        children: [
+          Icon(icon, color: Colors.grey),
+          if (!isCentered) SizedBox(width: 16),
+          Text(title, style: TextStyle(fontSize: 16)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRecommendationItem(
+      String imagePath, String title, String servings, BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => RecomendacionView(title: title)),
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
           children: [
-            Icon(icon, color: Colors.grey),
-            SizedBox(width: 16),
-            Text(title, style: TextStyle(fontSize: 16)),
+            Container(
+              width: 150,
+              height: 100,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                image: DecorationImage(
+                  image: AssetImage(imagePath),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              title,
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            Text(
+              servings,
+              style: TextStyle(fontSize: 12, color: Colors.grey),
+            ),
           ],
         ),
       ),

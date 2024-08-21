@@ -1,7 +1,7 @@
 // lib/views/auth_view.dart
 
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
 import '../controllers/auth_controller.dart';
 import '../services/google_auth_service.dart';
 import 'register_view.dart';
