@@ -3,7 +3,8 @@ import 'package:gluco_fit/views/menu/menu_list.dart';
 import '../controllers/auth_controller.dart';
 import 'recipe/recipe_list_view.dart';
 import 'auth_view.dart';
-import '../services/recipe_upload_service.dart'; 
+import '../services/recipe_upload_service.dart';
+import 'package:gluco_fit/views/recomendations/recomendation_view.dart';
 
 class HomeView extends StatelessWidget {
   final AuthController _authController = AuthController();
@@ -110,6 +111,14 @@ class HomeView extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => RecipesOfTheDayScreen()),
+            );
+          }
+          if (index == 3) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      RecommendationsView()), // Navega a la vista de recomendaciones
             );
           }
           // Aquí puedes agregar la lógica para las otras opciones del menú
