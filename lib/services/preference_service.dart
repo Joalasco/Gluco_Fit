@@ -3,8 +3,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/preference_model.dart';
 
 class PreferenceService {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore;
+  final FirebaseAuth _auth;
+
+  PreferenceService({
+    required FirebaseFirestore firestore,
+    required FirebaseAuth auth,
+  })  : _firestore = firestore,
+        _auth = auth;
 
   Future<void> saveUserPreferences(UserPreferences preferences) async {
     final userId = _auth.currentUser?.uid;
@@ -22,7 +28,7 @@ class PreferenceService {
       if (doc.exists) {
         return UserPreferences.fromMap(doc.data()!);
       } else {
-        return null; // Retorna null si no existen preferencias
+        return null; // Return null if no preferences exist
       }
     }
     throw Exception('No user logged in');

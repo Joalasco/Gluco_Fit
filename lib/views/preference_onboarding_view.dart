@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../models/preference_model.dart';
 import '../services/preference_service.dart';
 import '../views/recipe/recipe_list_view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PreferenceOnboardingView extends StatefulWidget {
   @override
@@ -11,7 +13,10 @@ class PreferenceOnboardingView extends StatefulWidget {
 class _PreferenceOnboardingViewState extends State<PreferenceOnboardingView> {
   final PageController _pageController = PageController();
   late UserPreferences _preferences;
-  final PreferenceService _preferenceService = PreferenceService();
+  final PreferenceService _preferenceService = PreferenceService(
+    firestore: FirebaseFirestore.instance,
+    auth: FirebaseAuth.instance,
+  );
   int _currentPage = 0;
 
   @override

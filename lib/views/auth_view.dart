@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gluco_fit/views/home_view.dart';
 import '../controllers/auth_controller.dart';
 import '../services/google_auth_service.dart';
 import '../models/user_model.dart' as AppUser;
@@ -27,7 +28,7 @@ class _AuthViewState extends State<AuthView> {
       );
     } else {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => RecipeListView()),
+        MaterialPageRoute(builder: (context) => HomeView()),
       );
     }
   }

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/user_model.dart';
 import '../services/preference_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthController {
   final firebase_auth.FirebaseAuth auth;
@@ -14,7 +15,10 @@ class AuthController {
     PreferenceService? preferenceService,
   })  : this.auth = auth ?? firebase_auth.FirebaseAuth.instance,
         this.firestore = firestore ?? FirebaseFirestore.instance,
-        this._preferenceService = preferenceService ?? PreferenceService();
+        this._preferenceService = preferenceService ?? PreferenceService(
+          firestore: FirebaseFirestore.instance,
+          auth: firebase_auth.FirebaseAuth.instance,
+        );
 
   Future<User?> registerUser(String email, String password, String nombre, int edad, String genero) async {
     try {
@@ -33,7 +37,6 @@ class AuthController {
       );
 
       await firestore.collection('users').doc(user.uid).set(user.toFirestore());
-
       return user;
     } catch (e) {
       print('Error en el registro: $e');

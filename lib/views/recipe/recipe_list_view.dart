@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:gluco_fit/views/home_view.dart';
 import '../../controllers/recipe_controller.dart';
 import '../../models/recipe_model.dart';
 import '../../services/preference_service.dart';
 import '../../models/preference_model.dart';
 import 'recipe_detail_view.dart';
 import 'recipe_create_view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RecipeListView extends StatefulWidget {
   @override
@@ -13,7 +16,10 @@ class RecipeListView extends StatefulWidget {
 
 class _RecipeListViewState extends State<RecipeListView> {
   final RecipeController controller = RecipeController();
-  final PreferenceService _preferenceService = PreferenceService();
+  final PreferenceService _preferenceService = PreferenceService(
+    firestore: FirebaseFirestore.instance,
+    auth: FirebaseAuth.instance,
+  );
   List<Recipe> recipes = [];
   bool isLoading = true;
   String selectedRegion = 'Sierra';
@@ -202,6 +208,21 @@ class _RecipeListViewState extends State<RecipeListView> {
         BottomNavigationBarItem(icon: Icon(Icons.menu_book), label: 'Menús'),
         BottomNavigationBarItem(icon: Icon(Icons.recommend), label: 'Recomendaciones'),
       ],
+      onTap: (index) {
+          if (index == 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomeView()),
+            );
+          }
+          if (index == 1) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => RecipeListView()),
+            );
+          }
+          // Aquí puedes agregar la lógica para las otras opciones del menú
+        },
     );
   }
 }

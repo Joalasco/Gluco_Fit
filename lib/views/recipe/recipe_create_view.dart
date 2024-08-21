@@ -141,95 +141,67 @@ class _RecipeCreateViewState extends State<RecipeCreateView> {
     return ExpansionTile(
       title: Text(controllers['nombre']!.text.isEmpty ? 'Nuevo Ingrediente' : controllers['nombre']!.text),
       children: [
-        TextFormField(
-          controller: controllers['nombre'],
-          decoration: InputDecoration(labelText: 'Nombre'),
-        ),
-        TextFormField(
-          controller: controllers['cantidad'],
-          decoration: InputDecoration(labelText: 'Cantidad'),
-          keyboardType: TextInputType.number,
-        ),
-        TextFormField(
-          controller: controllers['unidad'],
-          decoration: InputDecoration(labelText: 'Unidad'),
-        ),
-        TextFormField(
-          controller: controllers['calorias'],
-          decoration: InputDecoration(labelText: 'Calorías'),
-          keyboardType: TextInputType.number,
-        ),
-        TextFormField(
-          controller: controllers['grasas'],
-          decoration: InputDecoration(labelText: 'Grasas'),
-          keyboardType: TextInputType.number,
-        ),
-        TextFormField(
-          controller: controllers['proteinas'],
-          decoration: InputDecoration(labelText: 'Proteínas'),
-          keyboardType: TextInputType.number,
-        ),
-        TextFormField(
-          controller: controllers['carbohidratos'],
-          decoration: InputDecoration(labelText: 'Carbohidratos'),
-          keyboardType: TextInputType.number,
-        ),
-        TextFormField(
-          controller: controllers['glucosa'],
-          decoration: InputDecoration(labelText: 'Glucosa'),
-          keyboardType: TextInputType.number,
-        ),
+        _buildTextField(controllers['nombre']!, 'Nombre'),
+        _buildTextField(controllers['cantidad']!, 'Cantidad', inputType: TextInputType.number),
+        _buildTextField(controllers['unidad']!, 'Unidad'),
+        _buildTextField(controllers['calorias']!, 'Calorías', inputType: TextInputType.number),
+        _buildTextField(controllers['grasas']!, 'Grasas', inputType: TextInputType.number),
+        _buildTextField(controllers['proteinas']!, 'Proteínas', inputType: TextInputType.number),
+        _buildTextField(controllers['carbohidratos']!, 'Carbohidratos', inputType: TextInputType.number),
+        _buildTextField(controllers['glucosa']!, 'Glucosa', inputType: TextInputType.number),
         Align(
           alignment: Alignment.centerRight,
           child: ElevatedButton(
             onPressed: () => _removeIngredient(category, index),
             child: Text('Eliminar Ingrediente'),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
           ),
         ),
       ],
     );
   }
 
+  Widget _buildTextField(TextEditingController controller, String label, {TextInputType inputType = TextInputType.text}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextFormField(
+        controller: controller,
+        keyboardType: inputType,
+        decoration: InputDecoration(
+          labelText: label,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0)),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Crear Nueva Receta')),
+      appBar: AppBar(
+        title: Text('Crear Nueva Receta'),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
+      ),
       body: Form(
         key: _formKey,
         child: ListView(
           padding: EdgeInsets.all(16.0),
           children: [
-            TextFormField(
-              controller: _nombreController,
-              decoration: InputDecoration(labelText: 'Nombre'),
-              validator: (value) => value!.isEmpty ? 'Por favor ingrese un nombre' : null,
-            ),
-            TextFormField(
-              controller: _descripcionDetalleController,
-              decoration: InputDecoration(labelText: 'Descripción'),
-              validator: (value) => value!.isEmpty ? 'Por favor ingrese una descripción' : null,
-            ),
-            TextFormField(
-              controller: _descripcionRegionController,
-              decoration: InputDecoration(labelText: 'Región'),
-            ),
-            TextFormField(
-              controller: _tiempoPreparacionController,
-              decoration: InputDecoration(labelText: 'Tiempo de Preparación (minutos)'),
-              keyboardType: TextInputType.number,
-              validator: (value) => value!.isEmpty ? 'Por favor ingrese el tiempo de preparación' : null,
-            ),
+            _buildTextField(_nombreController, 'Nombre'),
+            _buildTextField(_descripcionDetalleController, 'Descripción'),
+            _buildTextField(_descripcionRegionController, 'Región'),
+            _buildTextField(_tiempoPreparacionController, 'Tiempo de Preparación (minutos)', inputType: TextInputType.number),
+            SizedBox(height: 16),
             ..._instruccionesControllers.asMap().entries.map(
               (entry) => Row(
                 children: [
                   Expanded(
-                    child: TextFormField(
-                      controller: entry.value,
-                      decoration: InputDecoration(labelText: 'Instrucción ${entry.key + 1}'),
-                    ),
+                    child: _buildTextField(entry.value, 'Instrucción ${entry.key + 1}'),
                   ),
                   IconButton(
-                    icon: Icon(Icons.delete),
+                    icon: Icon(Icons.delete, color: Colors.red),
                     onPressed: () => _removeInstruction(entry.key),
                   ),
                 ],
@@ -238,28 +210,47 @@ class _RecipeCreateViewState extends State<RecipeCreateView> {
             ElevatedButton(
               onPressed: _addInstruction,
               child: Text('Agregar Instrucción'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+              ),
             ),
+            SizedBox(height: 16),
             ..._ingredientesControllers.entries.map((entry) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(entry.key.toUpperCase(), style: Theme.of(context).textTheme.titleLarge),
+                Text(
+                  entry.key.toUpperCase(),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
                 ...entry.value.asMap().entries.map((ingredientEntry) => 
                   _buildIngredientFields(entry.key, ingredientEntry.key)
                 ),
+                SizedBox(height: 8),
                 ElevatedButton(
                   onPressed: () => _addIngredient(entry.key),
                   child: Text('Agregar ${entry.key}'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+                  ),
                 ),
               ],
             )),
-            TextFormField(
-              controller: _imagenURLController,
-              decoration: InputDecoration(labelText: 'URL de la Imagen'),
-            ),
+            SizedBox(height: 16),
+            _buildTextField(_imagenURLController, 'URL de la Imagen'),
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _createRecipe,
-              child: Text('Crear Receta'),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: _createRecipe,
+                child: Text('Crear Receta'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+                  padding: EdgeInsets.symmetric(vertical: 16.0),
+                ),
+              ),
             ),
           ],
         ),
