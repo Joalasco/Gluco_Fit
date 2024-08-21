@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gluco_fit/views/menu/menu_list.dart';
 import '../controllers/auth_controller.dart';
 import 'recipe/recipe_list_view.dart';
 import 'auth_view.dart';
-import '../services/recipe_upload_service.dart'; // Asegúrate de usar la ruta correcta
+import '../services/recipe_upload_service.dart'; 
 
 class HomeView extends StatelessWidget {
   final AuthController _authController = AuthController();
@@ -97,6 +98,12 @@ class HomeView extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => RecipeListView()),
+            );
+          }
+          if (index == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => RecipesOfTheDayScreen()),
             );
           }
           // Aquí puedes agregar la lógica para las otras opciones del menú
