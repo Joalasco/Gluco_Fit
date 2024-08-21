@@ -5,6 +5,7 @@ import '../controllers/auth_controller.dart';
 import '../services/google_auth_service.dart';
 import 'home_view.dart';
 import 'package:firebase_auth/firebase_auth.dart'; // Importa FirebaseAuth para la autenticación
+import 'package:email_validator/email_validator.dart'; // Importa el paquete para validar correos electrónicos
 
 //inicio de desarrollo de logica de validacion
 //pruebas unitarias
@@ -54,7 +55,32 @@ class _RegisterViewState extends State<RegisterView> {
   }
 
   Future<void> _registerWithEmailPassword() async {
-    if (_passwordController.text != _confirmPasswordController.text) {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+    final confirmPassword = _confirmPasswordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Por favor, complete todos los campos')),
+      );
+      return;
+    }
+
+    if (!EmailValidator.validate(email)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('El correo no es válido')),
+      );
+      return;
+    }
+
+    if (password.length < 6) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('La contraseña debe tener al menos 6 caracteres')),
+      );
+      return;
+    }
+
+    if (password != confirmPassword) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Las contraseñas no coinciden')),
       );
@@ -67,8 +93,8 @@ class _RegisterViewState extends State<RegisterView> {
 
     try {
       UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: _emailController.text,
-        password: _passwordController.text,
+        email: email,
+        password: password,
       );
 
       if (userCredential.user != null) {
