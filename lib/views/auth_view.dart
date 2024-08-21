@@ -1,11 +1,11 @@
-// lib/views/auth_view.dart
-
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:gluco_fit/views/home_view.dart';
 import '../controllers/auth_controller.dart';
 import '../services/google_auth_service.dart';
+import '../models/user_model.dart' as AppUser;
 import 'register_view.dart';
-import 'home_view.dart';
+import 'preference_onboarding_view.dart';
+import '../views/recipe/recipe_list_view.dart';
 
 class AuthView extends StatefulWidget {
   @override
@@ -20,10 +20,17 @@ class _AuthViewState extends State<AuthView> {
 
   bool _isLoading = false;
 
-  void _navigateToHome() {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => HomeView()),
-    );
+  void _navigateAfterSignIn() async {
+    final isFirstTime = await _authController.isFirstTimeUser();
+    if (isFirstTime) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => PreferenceOnboardingView()),
+      );
+    } else {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => HomeView()),
+      );
+    }
   }
 
   Future<void> _signInWithGoogle() async {
@@ -33,7 +40,7 @@ class _AuthViewState extends State<AuthView> {
     try {
       final user = await _googleAuthService.signInWithGoogle();
       if (user != null) {
-        _navigateToHome();
+        _navigateAfterSignIn();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error al iniciar sesión con Google')),
@@ -96,18 +103,25 @@ class _AuthViewState extends State<AuthView> {
                     SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () async {
+                        setState(() {
+                          _isLoading = true;
+                        });
                         try {
                           final user = await _authController.signIn(
                             _emailController.text,
                             _passwordController.text,
                           );
                           if (user != null) {
-                            _navigateToHome();
+                            _navigateAfterSignIn();
                           }
                         } catch (e) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('Error en el inicio de sesión: $e')),
                           );
+                        } finally {
+                          setState(() {
+                            _isLoading = false;
+                          });
                         }
                       },
                       child: Text('Ingresar', style: TextStyle(fontSize: 18)),

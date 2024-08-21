@@ -94,6 +94,12 @@ class HomeView extends StatelessWidget {
               icon: Icon(Icons.recommend), label: 'Recomendaciones'),
         ],
         onTap: (index) {
+          if (index == 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomeView()),
+            );
+          }
           if (index == 1) {
             Navigator.push(
               context,

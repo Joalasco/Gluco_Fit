@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../controllers/auth_controller.dart';
 import '../services/google_auth_service.dart';
 import 'home_view.dart';
+import 'auth_view.dart';
 
 class RegisterView extends StatefulWidget {
   @override
@@ -20,9 +21,9 @@ class _RegisterViewState extends State<RegisterView> {
   bool _obscureConfirmPassword = true;
   bool _isLoading = false;
 
-  void _navigateToHome() {
+  void _navigateToLogin() {
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => HomeView()),
+      MaterialPageRoute(builder: (context) => AuthView()),
     );
   }
 
@@ -33,7 +34,7 @@ class _RegisterViewState extends State<RegisterView> {
     try {
       final user = await _googleAuthService.signInWithGoogle();
       if (user != null) {
-        _navigateToHome();
+        _navigateToLogin();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error al registrarse con Google')),
@@ -143,7 +144,7 @@ class _RegisterViewState extends State<RegisterView> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('Registro exitoso')),
                         );
-                        _navigateToHome();
+                        _navigateToLogin();
                       } catch (e) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('Error en el registro: $e')),
