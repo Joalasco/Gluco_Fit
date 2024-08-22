@@ -4,6 +4,7 @@ import 'recipe/recipe_list_view.dart';
 import 'auth_view.dart';
 import '../services/recipe_upload_service.dart';
 import 'recomendacion_view.dart'; // Importa la nueva vista
+import 'recomendacion_usuario_view.dart'; // Importa la vista de recomendación de usuario
 
 class HomeView extends StatelessWidget {
   final AuthController _authController = AuthController();
@@ -91,6 +92,11 @@ class HomeView extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => RecipeListView()),
+            );
+          } else if (index == 3) { // Si el usuario selecciona la opción de 'Recomendaciones'
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => RecomendacionUsuarioView()), // Redirige a la vista de Recomendación de Usuario
             );
           }
           // Aquí puedes agregar la lógica para las otras opciones del menú
