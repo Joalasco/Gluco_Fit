@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gluco_fit/views/educative/eduative_list.dart';
 import '../controllers/auth_controller.dart';
 import 'recipe/recipe_list_view.dart';
 import 'auth_view.dart';
@@ -97,6 +98,12 @@ class HomeView extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => RecipeListView()),
+            );
+          }
+          if (index == 3) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => EducationSection()),
             );
           }
           // Aquí puedes agregar la lógica para las otras opciones del menú
