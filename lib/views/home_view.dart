@@ -5,6 +5,7 @@ import 'recipe/recipe_list_view.dart';
 import 'auth_view.dart';
 import '../services/recipe_upload_service.dart';
 import 'package:gluco_fit/views/recomendations/recomendation_view.dart';
+import 'educativo/educativo_view.dart';
 
 class HomeView extends StatelessWidget {
   final AuthController _authController = AuthController();
@@ -58,7 +59,13 @@ class HomeView extends StatelessWidget {
               SizedBox(height: 15),
               _buildMenuItem(Icons.question_answer, 'FAQ'),
               SizedBox(height: 15),
-              _buildMenuItem(Icons.book, 'Recursos educativos'),
+              _buildMenuItem(Icons.book, 'Recursos educativos', onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => EducativoView()),
+                );
+              }),
+
               SizedBox(height: 15),
 
               // Botón pequeño para subir recetas

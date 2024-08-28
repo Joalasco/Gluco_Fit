@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'detalles_educativo_view.dart'; // Importa la nueva vista de detalles
+import '../../services/recurso_educativo_service.dart';
+import '../../models/recurso_educativo_model.dart';
+import 'detalles_educativo_view.dart';
 
 class EducativoView extends StatelessWidget {
+  final RecursoEducativoService _recursoService = RecursoEducativoService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,33 +23,32 @@ class EducativoView extends StatelessWidget {
           ),
         ],
       ),
-      body: Container(
-        color: Colors.lightGreen[50],
-        child: ListView(
-          padding: EdgeInsets.all(16.0),
-          children: [
-            _buildCard(
-              context,
-              'Que es el ayuno',
-              'Tiempo de preparación\nCalorías totales\nGrasas totales\nProteínas totales\nCarbohidratos totales',
-              'assets/ayuno.png',
-            ),
-            SizedBox(height: 16.0),
-            _buildCard(
-              context,
-              'Días de dieta',
-              'Tiempo de preparación\nCalorías totales\nGrasas totales\nProteínas totales\nCarbohidratos totales',
-              'assets/dieta.png',
-            ),
-            SizedBox(height: 16.0),
-            _buildCard(
-              context,
-              'Calorías en alimentos',
-              'Tiempo de preparación\nCalorías totales\nGrasas totales\nProteínas totales\nCarbohidratos totales',
-              'assets/calorias.png',
-            ),
-          ],
-        ),
+      body: FutureBuilder<List<RecursoEducativo>>(
+        future: _recursoService.getRecursosEducativos(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error cargando recursos educativos.'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(
+                child: Text('No hay recursos educativos disponibles.'));
+          }
+
+          final recursos = snapshot.data!;
+          return ListView.builder(
+            padding: EdgeInsets.all(16.0),
+            itemCount: recursos.length,
+            itemBuilder: (context, index) {
+              final recurso = recursos[index];
+              return _buildCard(
+                context,
+                recurso.descripcion,
+                recurso.imageUrl,
+              );
+            },
+          );
+        },
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: 1,
@@ -73,17 +76,16 @@ class EducativoView extends StatelessWidget {
     );
   }
 
-  Widget _buildCard(BuildContext context, String title, String description, String imagePath) {
+  Widget _buildCard(BuildContext context, String description, String imageUrl) {
     return GestureDetector(
       onTap: () {
-        // Navega a la pantalla de detalles cuando se hace clic en la tarjeta
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => DetallesEducativoView(
-              title: title,
+              title: description,
               description: description,
-              imagePath: imagePath,
+              imagePath: imageUrl,
             ),
           ),
         );
@@ -97,8 +99,8 @@ class EducativoView extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Row(
             children: [
-              Image.asset(
-                imagePath,
+              Image.network(
+                imageUrl,
                 width: 80,
                 height: 80,
                 fit: BoxFit.cover,
@@ -109,7 +111,7 @@ class EducativoView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      title,
+                      description,
                       style: TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
@@ -117,7 +119,7 @@ class EducativoView extends StatelessWidget {
                     ),
                     SizedBox(height: 8.0),
                     Text(
-                      description,
+                      'Ver más detalles...',
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.grey[600],
