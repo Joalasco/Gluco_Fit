@@ -23,28 +23,46 @@ class _RatingViewState extends State<RatingView> {
         padding: EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text('How would you rate our app?'),
+            Text(
+              'How would you rate our app?',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(5, (index) {
-                return IconButton(
-                  icon: Icon(
-                    _selectedRating > index ? Icons.star : Icons.star_border,
-                    color: Colors.yellow,
-                  ),
-                  onPressed: () {
+                return GestureDetector(
+                  onTap: () {
                     setState(() {
                       _selectedRating = index + 1;
                     });
                   },
+                  child: AnimatedContainer(
+                    duration: Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+                    padding: EdgeInsets.all(8.0),
+                    child: Icon(
+                      _selectedRating > index ? Icons.star : Icons.star_border,
+                      color:
+                          _selectedRating > index ? Colors.yellow : Colors.grey,
+                      size: _selectedRating > index ? 40 : 30,
+                    ),
+                  ),
                 );
               }),
             ),
+            SizedBox(height: 20),
             TextField(
               controller: _feedbackController,
               decoration: InputDecoration(
                 labelText: 'Leave your feedback (optional)',
+                border: OutlineInputBorder(),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue, width: 2.0),
+                ),
               ),
               maxLines: 3,
             ),
@@ -53,7 +71,16 @@ class _RatingViewState extends State<RatingView> {
               onPressed: () {
                 widget.onSubmit(_selectedRating, _feedbackController.text);
               },
-              child: Text('Submit'),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              child: Text(
+                'Submit',
+                style: TextStyle(fontSize: 16),
+              ),
             ),
           ],
         ),
