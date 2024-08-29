@@ -4,6 +4,7 @@ class Comentario {
   final String usuarioID;
   final String texto;
   final DateTime fecha;
+  final String nombreUsuario; // Mantén el nombre de usuario
 
   Comentario({
     required this.comentarioID,
@@ -11,6 +12,7 @@ class Comentario {
     required this.usuarioID,
     required this.texto,
     required this.fecha,
+    required this.nombreUsuario,
   });
 
   factory Comentario.fromMap(Map<String, dynamic> map) {
@@ -20,6 +22,7 @@ class Comentario {
       usuarioID: map['usuarioID'] ?? '',
       texto: map['texto'] ?? '',
       fecha: DateTime.parse(map['fecha'] ?? DateTime.now().toIso8601String()),
+      nombreUsuario: map['nombreUsuario'] ?? '',
     );
   }
 
@@ -30,6 +33,7 @@ class Comentario {
       'usuarioID': usuarioID,
       'texto': texto,
       'fecha': fecha.toIso8601String(),
+      'nombreUsuario': nombreUsuario,
     };
   }
 }

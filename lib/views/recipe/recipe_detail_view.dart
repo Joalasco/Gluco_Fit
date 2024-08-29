@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/recipe_model.dart';
 import '../../services/diabetes_service.dart';
+import '../comments/comment_view.dart'; // Asegúrate de que la ruta sea correcta
 
 class RecipeDetailView extends StatefulWidget {
   final Recipe recipe;
@@ -15,8 +16,7 @@ class _RecipeDetailViewState extends State<RecipeDetailView> {
   final DiabetesService diabetesService = DiabetesService();
   late Recipe _recipe = widget.recipe;
   String diabetesStatus = ""; // Texto vacío inicialmente
-  bool isDiabetesStatusVisible =
-      false; // Para controlar la visibilidad del texto
+  bool isDiabetesStatusVisible = false; // Para controlar la visibilidad del texto
 
   void _checkDiabetesStatus() async {
     // Inicializar valores nutricionales
@@ -39,8 +39,7 @@ class _RecipeDetailViewState extends State<RecipeDetailView> {
           totalCalorias += ingrediente.informacionNutricional.calorias;
           totalGrasas += ingrediente.informacionNutricional.grasas;
           totalProteinas += ingrediente.informacionNutricional.proteinas;
-          totalCarbohidratos +=
-              ingrediente.informacionNutricional.carbohidratos;
+          totalCarbohidratos += ingrediente.informacionNutricional.carbohidratos;
           totalGlucosa += ingrediente.informacionNutricional.glucosa;
         }
       }
@@ -61,8 +60,7 @@ class _RecipeDetailViewState extends State<RecipeDetailView> {
     };
 
     // Convertir la región a un número utilizando el mapa
-    int regionValue = regionMap[_recipe.region] ??
-        0; // Por defecto a 0 si la región no existe
+    int regionValue = regionMap[_recipe.region] ?? 0; // Por defecto a 0 si la región no existe
 
     // Construir los datos para enviar a la API según la estructura correcta
     Map<String, dynamic> data = {
@@ -84,8 +82,7 @@ class _RecipeDetailViewState extends State<RecipeDetailView> {
     // Llamar al servicio y actualizar el estado
     String result = await diabetesService.checkDiabetesStatus(data);
     setState(() {
-      diabetesStatus =
-          result == "1" ? "Apto para diabetes" : "No apto para diabetes";
+      diabetesStatus = result == "1" ? "Apto para diabetes" : "No apto para diabetes";
       isDiabetesStatusVisible = true; // Mostrar el texto con el resultado
     });
   }
@@ -103,69 +100,82 @@ class _RecipeDetailViewState extends State<RecipeDetailView> {
         ),
         title: Text(_recipe.nombre, style: TextStyle(color: Colors.black)),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Image.network(
-              _recipe.imagenURL,
-              height: 200,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            flex: 3,
+            child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Descripción:',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  Image.network(
+                    _recipe.imagenURL,
+                    height: 200,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
                   ),
-                  Text(_recipe.descripcion.detalle),
-                  Text('Región: ${_recipe.descripcion.region}'),
-                  SizedBox(height: 16),
-                  Text(
-                    'Tiempo de Preparación:',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                  ),
-                  Text('${_recipe.tiempoPreparacion} minutos'),
-                  SizedBox(height: 16),
-                  Text(
-                    'Ingredientes:',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                  ),
-                  _buildIngredientList(_recipe.ingredientes),
-                  SizedBox(height: 16),
-                  Text(
-                    'Instrucciones:',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                  ),
-                  ..._recipe.instrucciones.map((step) => Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4.0),
-                        child: Text('• $step'),
-                      )),
-                  SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: _checkDiabetesStatus,
-                    child: Text('Consultar si es apto para diabetes'),
-                  ),
-                  SizedBox(height: 16),
-                  Visibility(
-                    visible: isDiabetesStatusVisible,
-                    child: Text(
-                      diabetesStatus,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: Colors.blue),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Descripción:',
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                        ),
+                        Text(_recipe.descripcion.detalle),
+                        Text('Región: ${_recipe.descripcion.region}'),
+                        SizedBox(height: 16),
+                        Text(
+                          'Tiempo de Preparación:',
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                        ),
+                        Text('${_recipe.tiempoPreparacion} minutos'),
+                        SizedBox(height: 16),
+                        Text(
+                          'Ingredientes:',
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                        ),
+                        _buildIngredientList(_recipe.ingredientes),
+                        SizedBox(height: 16),
+                        Text(
+                          'Instrucciones:',
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                        ),
+                        ..._recipe.instrucciones.map((step) => Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4.0),
+                              child: Text('• $step'),
+                            )),
+                        SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: _checkDiabetesStatus,
+                          child: Text('Consultar si es apto para diabetes'),
+                        ),
+                        SizedBox(height: 16),
+                        Visibility(
+                          visible: isDiabetesStatusVisible,
+                          child: Text(
+                            diabetesStatus,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: Colors.blue),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+          // Añadir la vista de comentarios al final
+          Expanded(
+            flex: 2,
+            child: ComentariosView(receta: _recipe),
+          ),
+        ],
       ),
     );
   }

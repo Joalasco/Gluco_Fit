@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart'; // Para widgets de Flutter
-import '../../controllers/comment_controller.dart'; // Asegúrate de que la ruta sea correcta
-import '../../models/comment_model.dart'; // Asegúrate de que la ruta sea correcta
-import '../../models/recipe_model.dart'; // Asegúrate de que la ruta sea correcta
+import 'package:flutter/material.dart';
+import '../../controllers/comment_controller.dart';
+import '../../models/comment_model.dart';
+import '../../models/recipe_model.dart';
 
 class ComentariosView extends StatefulWidget {
   final Recipe receta;
@@ -38,6 +38,7 @@ class _ComentariosViewState extends State<ComentariosView> {
         usuarioID: 'usuarioEjemploID', // Este ID debería ser el ID del usuario autenticado
         texto: _comentarioControllerTexto.text,
         fecha: DateTime.now(),
+        nombreUsuario: 'Nombre del Usuario', // Este valor debería ser obtenido del usuario autenticado
       );
 
       await _comentarioController.agregarComentario(nuevoComentario);
@@ -56,8 +57,9 @@ class _ComentariosViewState extends State<ComentariosView> {
             itemBuilder: (context, index) {
               Comentario comentario = _comentarios[index];
               return ListTile(
-                title: Text(comentario.texto),
-                subtitle: Text('${comentario.usuarioID} - ${comentario.fecha.toLocal()}'),
+                title: Text(comentario.nombreUsuario),
+                subtitle: Text(comentario.texto),
+                trailing: Text('${comentario.fecha.toLocal()}'),
               );
             },
           ),
