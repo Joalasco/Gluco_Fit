@@ -1,10 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Comentario {
   final String comentarioID;
   final String recetaID;
   final String usuarioID;
   final String texto;
   final DateTime fecha;
-  final String nombreUsuario; // Mantén el nombre de usuario
+  final String nombreUsuario;
 
   Comentario({
     required this.comentarioID,
@@ -21,7 +23,7 @@ class Comentario {
       recetaID: map['recetaID'] ?? '',
       usuarioID: map['usuarioID'] ?? '',
       texto: map['texto'] ?? '',
-      fecha: DateTime.parse(map['fecha'] ?? DateTime.now().toIso8601String()),
+      fecha: map['fecha'] != null ? (map['fecha'] as Timestamp).toDate() : DateTime.now(),
       nombreUsuario: map['nombreUsuario'] ?? '',
     );
   }
@@ -32,7 +34,7 @@ class Comentario {
       'recetaID': recetaID,
       'usuarioID': usuarioID,
       'texto': texto,
-      'fecha': fecha.toIso8601String(),
+      'fecha': Timestamp.fromDate(fecha),
       'nombreUsuario': nombreUsuario,
     };
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/recipe_model.dart';
 import '../../services/diabetes_service.dart';
-import '../comments/comment_view.dart'; // Asegúrate de que la ruta sea correcta
+import '../comments/comment_view.dart';
 
 class RecipeDetailView extends StatefulWidget {
   final Recipe recipe;
@@ -15,8 +15,8 @@ class RecipeDetailView extends StatefulWidget {
 class _RecipeDetailViewState extends State<RecipeDetailView> {
   final DiabetesService diabetesService = DiabetesService();
   late Recipe _recipe = widget.recipe;
-  String diabetesStatus = ""; // Texto vacío inicialmente
-  bool isDiabetesStatusVisible = false; // Para controlar la visibilidad del texto
+  String diabetesStatus = "";
+  bool isDiabetesStatusVisible = false;
 
   void _checkDiabetesStatus() async {
     // Inicializar valores nutricionales
@@ -90,93 +90,114 @@ class _RecipeDetailViewState extends State<RecipeDetailView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFD1F3E7), // Fondo verde claro
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Text(_recipe.nombre, style: TextStyle(color: Colors.black)),
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            flex: 3,
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Image.network(
-                    _recipe.imagenURL,
-                    height: 200,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Descripción:',
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                        ),
-                        Text(_recipe.descripcion.detalle),
-                        Text('Región: ${_recipe.descripcion.region}'),
-                        SizedBox(height: 16),
-                        Text(
-                          'Tiempo de Preparación:',
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                        ),
-                        Text('${_recipe.tiempoPreparacion} minutos'),
-                        SizedBox(height: 16),
-                        Text(
-                          'Ingredientes:',
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                        ),
-                        _buildIngredientList(_recipe.ingredientes),
-                        SizedBox(height: 16),
-                        Text(
-                          'Instrucciones:',
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                        ),
-                        ..._recipe.instrucciones.map((step) => Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 4.0),
-                              child: Text('• $step'),
-                            )),
-                        SizedBox(height: 16),
-                        ElevatedButton(
-                          onPressed: _checkDiabetesStatus,
-                          child: Text('Consultar si es apto para diabetes'),
-                        ),
-                        SizedBox(height: 16),
-                        Visibility(
-                          visible: isDiabetesStatusVisible,
-                          child: Text(
-                            diabetesStatus,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                                color: Colors.blue),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+      backgroundColor: Color(0xFFD1F3E7),
+      body: SafeArea(
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              expandedHeight: 200.0,
+              floating: false,
+              pinned: true,
+              flexibleSpace: FlexibleSpaceBar(
+                title: Text(
+                  _recipe.nombre,
+                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+                background: Image.network(
+                  _recipe.imagenURL,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(color: Colors.grey[300]);
+                  },
+                ),
               ),
             ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildInfoSection('Descripción', _recipe.descripcion.detalle),
+                    _buildInfoSection('Región', _recipe.descripcion.region),
+                    _buildInfoSection('Tiempo de Preparación', '${_recipe.tiempoPreparacion} minutos'),
+                    _buildIngredientSection(),
+                    _buildInstructionSection(),
+                    SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: _checkDiabetesStatus,
+                      child: Text('Consultar si es apto para diabetes'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.teal,
+                      ),
+                    ),
+                    if (isDiabetesStatusVisible)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text(
+                          diabetesStatus,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: Colors.blue,
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  'Comentarios',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxHeight: 400),
+                child: ComentariosView(receta: _recipe),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInfoSection(String title, String content) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
-          // Añadir la vista de comentarios al final
-          Expanded(
-            flex: 2,
-            child: ComentariosView(receta: _recipe),
+          Text(
+            content,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 5,
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildIngredientSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Ingredientes:',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+        ),
+        _buildIngredientList(_recipe.ingredientes),
+      ],
     );
   }
 
@@ -201,5 +222,27 @@ class _RecipeDetailViewState extends State<RecipeDetailView> {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: ingredientWidgets);
+  }
+
+  Widget _buildInstructionSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Instrucciones:',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+        ),
+        ConstrainedBox(
+          constraints: BoxConstraints(maxHeight: 200),
+          child: ListView(
+            shrinkWrap: true,
+            children: _recipe.instrucciones.map((step) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4.0),
+              child: Text('• $step'),
+            )).toList(),
+          ),
+        ),
+      ],
+    );
   }
 }
