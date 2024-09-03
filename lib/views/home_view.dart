@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gluco_fit/views/FAQ_view.dart';
+import 'package:gluco_fit/views/feedback_view.dart';
 import 'package:gluco_fit/views/menu/menu_list.dart';
 import '../controllers/auth_controller.dart';
 import 'recipe/recipe_list_view.dart';
@@ -55,9 +57,19 @@ class HomeView extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 30),
-              _buildMenuItem(Icons.lock, 'Feedback'),
+              _buildMenuItem(Icons.lock, 'Feedback', onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => FeedbackScreen()),
+                );
+              }),
               SizedBox(height: 15),
-              _buildMenuItem(Icons.question_answer, 'FAQ'),
+              _buildMenuItem(Icons.question_answer, 'FAQ', onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => FAQScreen()),
+                );
+              }),
               SizedBox(height: 15),
               _buildMenuItem(Icons.book, 'Recursos educativos', onTap: () {
                 Navigator.push(

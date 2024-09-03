@@ -51,7 +51,7 @@ class EducativoView extends StatelessWidget {
         },
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 1,
+        currentIndex: 0,
         selectedItemColor: Colors.lightGreen,
         unselectedItemColor: Colors.grey,
         items: [
