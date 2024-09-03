@@ -8,6 +8,7 @@ import 'recipe_detail_view.dart';
 import 'recipe_create_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../rating_view.dart';
 
 class RecipeListView extends StatefulWidget {
   @override

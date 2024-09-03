@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import '../controllers/auth_controller.dart';
 import 'recipe/recipe_list_view.dart';
 import 'auth_view.dart';
-import '../services/recipe_upload_service.dart'; // Asegúrate de usar la ruta correcta
+import '../services/recipe_upload_service.dart';
+import 'rating_view.dart'; // Asegúrate de usar la ruta correcta
 
 class HomeView extends StatelessWidget {
   final AuthController _authController = AuthController();
@@ -52,7 +53,12 @@ class HomeView extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 30),
-              _buildMenuItem(Icons.lock, 'Feedback'),
+              _buildMenuItem(Icons.lock, 'Feedback', onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => RatingView()),
+                );
+              }),
               SizedBox(height: 15),
               _buildMenuItem(Icons.question_answer, 'FAQ'),
               SizedBox(height: 15),
@@ -93,19 +99,23 @@ class HomeView extends StatelessWidget {
               icon: Icon(Icons.recommend), label: 'Recomendaciones'),
         ],
         onTap: (index) {
-          if (index == 0) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => HomeView()),
-            );
+          switch (index) {
+            case 0:
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => HomeView()),
+              );
+              break;
+            case 1:
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => RecipeListView()),
+              );
+              break;
+            // Aquí puedes agregar la lógica para las otras opciones del menú
+            default:
+              break;
           }
-          if (index == 1) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => RecipeListView()),
-            );
-          }
-          // Aquí puedes agregar la lógica para las otras opciones del menú
         },
       ),
     );
