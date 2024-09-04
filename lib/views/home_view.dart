@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:gluco_fit/views/menu/menu_list.dart';
 import '../controllers/auth_controller.dart';
 import 'recipe/recipe_list_view.dart';
+import 'package:gluco_fit/views/FAQ_view.dart';
 import 'auth_view.dart';
 import '../services/recipe_upload_service.dart';
-import 'rating_view.dart'; // Asegúrate de usar la ruta correcta
+import 'package:gluco_fit/views/recomendations/recomendation_view.dart';
+import 'educativo/educativo_view.dart';
+import 'rating_view.dart';
+import 'consejos_view.dart';
 
 class HomeView extends StatelessWidget {
   final AuthController _authController = AuthController();
@@ -36,7 +41,7 @@ class HomeView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Bienvenid@ de vuelta, Name',
+                'Bienvenid@ de vuelta',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 20),
@@ -60,9 +65,28 @@ class HomeView extends StatelessWidget {
                 );
               }),
               SizedBox(height: 15),
-              _buildMenuItem(Icons.question_answer, 'FAQ'),
+              _buildMenuItem(Icons.book, 'FAQ', onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => FAQScreen()),
+                );
+              }),
               SizedBox(height: 15),
-              _buildMenuItem(Icons.book, 'Recursos educativos'),
+              _buildMenuItem(Icons.book, 'Recursos educativos', onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => EducativoView()),
+                );
+              }),
+
+              SizedBox(height: 15),
+              _buildMenuItem(Icons.book, 'Consejos de Expertos', onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ConsejosView()),
+                );
+              }),
+
               SizedBox(height: 15),
 
               // Botón pequeño para subir recetas
@@ -94,7 +118,7 @@ class HomeView extends StatelessWidget {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(
               icon: Icon(Icons.restaurant_menu), label: 'Recetas'),
-          BottomNavigationBarItem(icon: Icon(Icons.menu_book), label: 'Menús'),
+          BottomNavigationBarItem(icon: Icon(Icons.menu_book), label: 'Educativos'),
           BottomNavigationBarItem(
               icon: Icon(Icons.recommend), label: 'Recomendaciones'),
         ],
@@ -116,6 +140,21 @@ class HomeView extends StatelessWidget {
             default:
               break;
           }
+          if (index == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => EducativoView()),
+            );
+          }
+          if (index == 3) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      RecommendationsView()), // Navega a la vista de recomendaciones
+            );
+          }
+          // Aquí puedes agregar la lógica para las otras opciones del menú
         },
       ),
     );

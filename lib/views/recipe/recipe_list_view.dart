@@ -9,6 +9,8 @@ import 'recipe_create_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../rating_view.dart';
+import '../educativo/educativo_view.dart';
+import '../recomendations/recomendation_view.dart';
 
 class RecipeListView extends StatefulWidget {
   @override
@@ -160,9 +162,12 @@ class _RecipeListViewState extends State<RecipeListView> {
 
   Widget _buildRecipeGrid() {
     return GridView.builder(
+      padding: EdgeInsets.all(8.0), // Añadir padding para evitar desbordamientos
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 1,
+        childAspectRatio: 0.8, // Ajusta el aspecto para que las tarjetas no sean tan altas
+        crossAxisSpacing: 8.0, // Espaciado horizontal entre los elementos
+        mainAxisSpacing: 8.0, // Espaciado vertical entre los elementos
       ),
       itemCount: recipes.length,
       itemBuilder: (context, index) {
@@ -187,9 +192,11 @@ class _RecipeListViewState extends State<RecipeListView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircleAvatar(
-              radius: 50,
-              backgroundImage: NetworkImage(recipe.imagenURL),
+            Expanded(
+              child: CircleAvatar(
+                radius: 50,
+                backgroundImage: NetworkImage(recipe.imagenURL),
+              ),
             ),
             SizedBox(height: 10),
             Text(recipe.nombre, style: TextStyle(fontWeight: FontWeight.bold)),
@@ -206,24 +213,37 @@ class _RecipeListViewState extends State<RecipeListView> {
       items: [
         BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
         BottomNavigationBarItem(icon: Icon(Icons.restaurant_menu), label: 'Recetas'),
-        BottomNavigationBarItem(icon: Icon(Icons.menu_book), label: 'Menús'),
+        BottomNavigationBarItem(icon: Icon(Icons.menu_book), label: 'Educativos'),
         BottomNavigationBarItem(icon: Icon(Icons.recommend), label: 'Recomendaciones'),
       ],
       onTap: (index) {
-          if (index == 0) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => HomeView()),
-            );
-          }
-          if (index == 1) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => RecipeListView()),
-            );
-          }
-          // Aquí puedes agregar la lógica para las otras opciones del menú
-        },
+        if (index == 0) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => HomeView()),
+          );
+        }
+        if (index == 1) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => RecipeListView()),
+          );
+        }
+        if (index == 2) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => EducativoView()),
+          );
+        }
+        if (index == 3) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    RecommendationsView()), // Navega a la vista de recomendaciones
+          );
+        }
+      },
     );
   }
 }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../../models/recipe_model.dart';
 import '../../services/diabetes_service.dart';
 import '../comments/comment_view.dart';
+import '../../controllers/recipe_controller.dart';
+import 'recipe_edit_view.dart'; // Asegúrate de importar la vista de edición
 
 class RecipeDetailView extends StatefulWidget {
   final Recipe recipe;
@@ -14,6 +16,8 @@ class RecipeDetailView extends StatefulWidget {
 
 class _RecipeDetailViewState extends State<RecipeDetailView> {
   final DiabetesService diabetesService = DiabetesService();
+  final RecipeController recipeController = RecipeController(); // Controlador para la receta
+
   late Recipe _recipe = widget.recipe;
   String diabetesStatus = "";
   bool isDiabetesStatusVisible = false;
@@ -87,6 +91,20 @@ class _RecipeDetailViewState extends State<RecipeDetailView> {
     });
   }
 
+  void _deleteRecipe() async {
+    await recipeController.deleteRecipe(_recipe.recetaID);
+    Navigator.pop(context); // Regresa a la pantalla anterior después de eliminar
+  }
+
+  void _navigateToEdit() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => RecipeEditView(recipe: _recipe),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -143,6 +161,26 @@ class _RecipeDetailViewState extends State<RecipeDetailView> {
                           ),
                         ),
                       ),
+                    SizedBox(height: 16),
+                    Row(
+                      children: [
+                        ElevatedButton(
+                          onPressed: _navigateToEdit,
+                          child: Text('Editar'),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.orange,
+                          ),
+                        ),
+                        SizedBox(width: 16),
+                        ElevatedButton(
+                          onPressed: _deleteRecipe,
+                          child: Text('Eliminar'),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -225,24 +263,18 @@ class _RecipeDetailViewState extends State<RecipeDetailView> {
   }
 
   Widget _buildInstructionSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Instrucciones:',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-        ),
-        ConstrainedBox(
-          constraints: BoxConstraints(maxHeight: 200),
-          child: ListView(
-            shrinkWrap: true,
-            children: _recipe.instrucciones.map((step) => Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4.0),
-              child: Text('• $step'),
-            )).toList(),
+    return Padding(
+      padding: const EdgeInsets.only(top: 16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Instrucciones:',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
-        ),
-      ],
+          ..._recipe.instrucciones.map((i) => Text('• $i')),
+        ],
+      ),
     );
   }
 }
